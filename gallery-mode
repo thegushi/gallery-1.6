@@ -1,0 +1,56 @@
+#!/bin/sh
+# gallery-mode edit|view
+# Toggles write permissions on Gallery's data directories.
+# Run as the gallery user (the same user suPHP executes as).
+#
+# Reads albumDir, userDir, and tmpDir from config.php.
+# Those three directories are everything Gallery writes to at runtime.
+# The gallery PHP files themselves are never written to after deploy.
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CONFIG="$SCRIPT_DIR/config.php"
+
+if [ ! -f "$CONFIG" ]; then
+    echo "config.php not found in $SCRIPT_DIR" >&2
+    exit 1
+fi
+
+# Pull the three writable paths out of config.php
+album_dir=$(php -r "include '$CONFIG'; echo \$gallery->app->albumDir;")
+user_dir=$(php -r  "include '$CONFIG'; echo \$gallery->app->userDir;")
+tmp_dir=$(php -r   "include '$CONFIG'; echo \$gallery->app->tmpDir;")
+
+case "$1" in
+    edit)
+        echo "Enabling edit mode..."
+        chmod u+w "$album_dir"
+        find "$album_dir" -maxdepth 1 -type d -exec chmod u+w {} +
+        [ -d "$user_dir" ] && chmod u+w "$user_dir"
+        [ -d "$tmp_dir"  ] && chmod u+w "$tmp_dir"
+        echo "Done. Gallery data directories are writable."
+        ;;
+    view)
+        echo "Enabling view-only mode..."
+        chmod u-w "$album_dir"
+        find "$album_dir" -maxdepth 1 -type d -exec chmod u-w {} +
+        [ -d "$user_dir" ] && chmod u-w "$user_dir"
+        [ -d "$tmp_dir"  ] && chmod u-w "$tmp_dir"
+        echo "Done. Gallery data directories are read-only."
+        ;;
+    status)
+        for dir in "$album_dir" "$user_dir" "$tmp_dir"; do
+            [ -d "$dir" ] || continue
+            if [ -w "$dir" ]; then
+                echo "writable: $dir"
+            else
+                echo "readonly: $dir"
+            fi
+        done
+        ;;
+    *)
+        echo "Usage: $0 edit|view|status" >&2
+        exit 1
+        ;;
+esac
