@@ -28,23 +28,23 @@ class CPGNuke_UserDB extends Abstract_UserDB {
 	var $db;
 	var $fields;
 	
-	function CPGNuke_UserDB() {
+	function __construct() {
 		global $gallery;
-		$this->db = $gallery->database{"cpgnuke"};
-		$this->prefix = $gallery->database{"user_prefix"};		
+		$this->db = $gallery->database["cpgnuke"];
+		$this->prefix = $gallery->database["user_prefix"];		
 		$this->nobody = new NobodyUser();
 		$this->everybody = new EverybodyUser();
 		$this->loggedIn = new LoggedInUser();
-		$this->fields = $gallery->database{'fields'};
+		$this->fields = $gallery->database['fields'];
 	}
 
 	function getUidList() {
 		$uidList = array();
 		$db = $this->db;
 
-		$sql= 'select ' . $this->fields{'uid'} . 
+		$sql= 'select ' . $this->fields['uid'] . 
 			  ' from ' . $this->prefix. 'users' .
-			  ' where '. $this->fields{'uid'} .'>1';
+			  ' where '. $this->fields['uid'] .'>1';
 
 		$results = $db->query($sql);
 

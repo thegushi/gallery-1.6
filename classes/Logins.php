@@ -38,7 +38,7 @@ class Logins {
 	 * @return Logins
 	 * @author Jens Tkotz
 	 */
-	function Logins() {
+	function __construct() {
 		global $gallery;
 
 		$dir = $gallery->app->albumDir;

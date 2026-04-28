@@ -28,10 +28,10 @@ class PostNuke_User extends Abstract_User {
 	var $db;
 	var $prefix;
 
-	function PostNuke_User() {
+	function __construct() {
 		global $gallery;
-		$this->db = $gallery->database{"db"};
-		$this->prefix = $gallery->database{"prefix"};
+		$this->db = $gallery->database["db"];
+		$this->prefix = $gallery->database["prefix"];
 	}
 
 	function loadByUid($uid) {

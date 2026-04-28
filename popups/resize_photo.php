@@ -160,8 +160,8 @@ else {
 	$choices = array(1280, 1024, 700, 800, 640, 600, 500, 400);
 	for ($i = 0; $i<count($choices); $i = $i+2) {
 		echo "\n\t<tr>";
-		echo "\n\t\t". '<td style="white-space:nowrap">' . gInput('radio', 'newsize', $choices[$i], false, $choices[$i], array('id' => "size_${choices[$i]}")) . '</td>';
-		echo "\n\t\t". '<td style="white-space:nowrap">' . gInput('radio', 'newsize', $choices[$i+1], false, $choices[$i+1], array('id' => "size_${choices[$i+1]}")) . '</td>';
+		echo "\n\t\t". '<td style="white-space:nowrap">' . gInput('radio', 'newsize', $choices[$i], false, $choices[$i], array('id' => "size_{$choices[$i]}")) . '</td>';
+		echo "\n\t\t". '<td style="white-space:nowrap">' . gInput('radio', 'newsize', $choices[$i+1], false, $choices[$i+1], array('id' => "size_{$choices[$i+1]}")) . '</td>';
 		echo "\n\t</tr>\n";
 	}
 ?>

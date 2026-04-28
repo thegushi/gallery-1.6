@@ -279,7 +279,7 @@ function getItemActions($i, $withIcons = false, $popupsOnly = false, $caption = 
 	if($isPhoto) {
 		$photo = $gallery->album->getPhoto($i);
 		if ($gallery->album->fields["use_exif"] == 'yes' &&
-			(eregi("jpe?g\$", $photo->image->type)) &&
+			(preg_match('/jpe?g$/i', $photo->image->type)) &&
 			(isset($gallery->app->use_exif) || isset($gallery->app->exiftags)))
 		{
 			$options['showExif'] = array(
@@ -428,7 +428,7 @@ function getNextId($currentId) {
  * @return string   $caption
  * @author Jens Tkotz
  */
-function generateCaption($captionType = 1, $originalFilename, $filename) {
+function generateCaption($captionType = 1, $originalFilename = '', $filename = '') {
 	global $gallery;
 
 	if (isset($gallery->app->dateTimeString)) {
@@ -634,7 +634,7 @@ function processNewImage($file, $ext, $name, $caption, $setCaption = '', $extra_
 					if ($firstRow) {
 						/* Find the name of the file name field */
 						foreach (array_keys($info) as $currKey) {
-							if (eregi("^\"?file\ ?name\"?$", $currKey)) {
+							if (preg_match('/^"?file ?name"?$/i', $currKey)) {
 								$fileNameKey = $currKey;
 							}
 						}
@@ -685,14 +685,14 @@ function processNewImage($file, $ext, $name, $caption, $setCaption = '', $extra_
 			$name = urldecode($name);
 
 			/* parse out original filename without extension */
-			$originalFilename = eregi_replace(".$ext$", "", $name);
+			$originalFilename = preg_replace('#.' . $ext . '$#i', '', $name);
 
 			/* replace multiple non-word characters with a single "_" */
-			$mangledFilename = ereg_replace("[^[:alnum:]]", "_", $originalFilename);
+			$mangledFilename = preg_replace('/[^[:alnum:]]/', '_', $originalFilename);
 
 			/* Get rid of extra underscores */
-			$mangledFilename = ereg_replace("_+", "_", $mangledFilename);
-			$mangledFilename = ereg_replace("(^_|_$)", "", $mangledFilename);
+			$mangledFilename = preg_replace('/_+/', '_', $mangledFilename);
+			$mangledFilename = preg_replace('/(^_|_$)/', '', $mangledFilename);
 
 			if (empty($mangledFilename)) {
 				$mangledFilename = $gallery->album->newPhotoName();
@@ -705,7 +705,7 @@ function processNewImage($file, $ext, $name, $caption, $setCaption = '', $extra_
 			* RewriteRule ^([^\.\?/]+)/([0-9]+)$	/~jpk/gallery/view_photo.php?set_albumName=$1&index=$2	[QSA]
 			*/
 
-			if (ereg("^([0-9]+)$", $mangledFilename)) {
+			if (preg_match('/^([0-9]+)$/', $mangledFilename)) {
 				$mangledFilename .= "_G";
 			}
 

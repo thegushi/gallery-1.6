@@ -228,7 +228,7 @@ function getRatingAverage() {
 				$results[$element]=$accum_votes;
 			}
 			else {
-				$results[$element]=number_format(((double)$accum_votes)/$count, 2);
+				$results[$element]=number_format(((float)$accum_votes)/$count, 2);
 			}
 		}
 		else {

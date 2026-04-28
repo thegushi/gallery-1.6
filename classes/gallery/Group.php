@@ -29,7 +29,7 @@ if (! class_exists('Abstract_Group')) {
 class Gallery_Group extends Abstract_Group {
 	var $version;
 
-	function Gallery_Group() {
+	function __construct() {
 		global $gallery;
 
 		$this->name		= '';

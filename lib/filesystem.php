@@ -102,7 +102,7 @@ function get_size($path, $recursive = false) {
  * @author Jens Tkotz
  */
 function getExtension($filename, $withDebug = true) {
-	$ext = ereg_replace(".*\.([^\.]*)$", "\\1", $filename);
+	$ext = preg_replace('/.*\.([^\.]*)$/', "\\1", $filename);
 	$ext = strtolower($ext);
 
 	if($withDebug) {

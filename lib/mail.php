@@ -128,9 +128,7 @@ function gallery_mail($to, $subject, $msg, $logmsg, $hide_recipients = false, $f
 		$bcc[] = $gallery->app->adminEmail;
 	}
 
-	if (get_magic_quotes_gpc()) {
-		$msg = stripslashes($msg);
-	}
+	// magic_quotes removed in PHP 7.4; always off
 
 	$gallery_mail = new htmlMimeMail();
 

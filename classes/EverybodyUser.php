@@ -25,7 +25,7 @@ if (! class_exists('Abstract_User')) {
 }
 
 class EverybodyUser extends Abstract_User {
-	function EverybodyUser() {
+	function __construct() {
 		$this->username = "EVERYBODY" ;
 		$this->fullname = _("Anonymous User");
 		$this->setIsAdmin(false);

@@ -33,7 +33,7 @@ list($send_email, $dismiss) =
 
 if (!$gallery->user->isAdmin() || $gallery->app->multiple_create != "yes") {
 	printPopupStart(gTranslate('core', "Create Multiple Users"));
-	showInvalidReqMesggTranslate('core', "You are not allowed to perform this action!"));
+	showInvalidReqMesg(gTranslate('core', "You are not allowed to perform this action!"));
 	exit;
 }
 
@@ -70,7 +70,7 @@ if ($formaction == 'create') {
 
 	if (!$errorCount) {
 		// Simple test to see if it's a windows file
-		if (sizeof($users) == 1 and ereg("\r\n", $users[0])) {
+		if (sizeof($users) == 1 and preg_match('/\r\n/', $users[0])) {
 			$users = explode("\r\n", $users[0]);
 		}
 		unlink($_FILES['membersfile']['tmp_name']);
@@ -108,10 +108,10 @@ if ($formaction == 'create') {
 				$total_added++;
 				if ($send_email && !empty($email)) {
 					processingMsg("- " . sprintf(gTranslate('core', "Send email to %s"),$email));
-					$msg = ereg_replace("!!PASSWORD!!", $password,
-						ereg_replace("!!USERNAME!!", $uname,
-						ereg_replace("!!FULLNAME!!", $fullname,
-						ereg_replace("!!NEWPASSWORDLINK!!",
+					$msg = preg_replace('/!!PASSWORD!!/', $password,
+						preg_replace('/!!USERNAME!!/', $uname,
+						preg_replace('/!!FULLNAME!!/', $fullname,
+						preg_replace('/!!NEWPASSWORDLINK!!/',
 						$tmpUser->genRecoverPasswordHash(),
 						welcome_email()))));
 

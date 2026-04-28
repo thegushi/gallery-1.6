@@ -25,7 +25,7 @@ if (! class_exists('Abstract_User')) {
 }
 
 class LoggedinUser extends Abstract_User {
-	function LoggedinUser() {
+	function __construct() {
 		$this->username = "LOGGEDIN";
 		$this->fullname = _("Anonymous User") ;
 		$this->setIsAdmin(false);

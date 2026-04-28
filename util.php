@@ -51,9 +51,7 @@ function getRequestVar($str) {
 
 		$ret = & $_REQUEST[$str];
 
-		if (get_magic_quotes_gpc()) {
-			$ret = stripslashes_deep($ret);
-		}
+		// magic_quotes removed in PHP 7.4; always off
 
 		$ret_orig = $ret;
 
@@ -141,16 +139,16 @@ function isBlacklistedComment(&$comment, $existingComment = true) {
 
 	if ($existingComment) {
 		foreach ($blacklist['entries'] as $key => $entry) {
-			if (ereg($entry, $comment->getCommentText()) ||
-				ereg($entry, $comment->getName())) {
+			if (preg_match('/' . $entry . '/', $comment->getCommentText()) ||
+				preg_match('/' . $entry . '/', $comment->getName())) {
 				return true;
 			}
 		}
 	}
 	else {
 		foreach ($blacklist['entries'] as $entry) {
-			if (ereg($entry, $comment['commenter_name']) ||
-				ereg($entry, $comment['comment_text'])) {
+			if (preg_match('/' . $entry . '/', $comment['commenter_name']) ||
+				preg_match('/' . $entry . '/', $comment['comment_text'])) {
 				return true;
 			}
 		}
@@ -271,13 +269,13 @@ function getDimensions($file) {
 		foreach ($lines as $line) {
 			switch($gallery->app->graphics) {
 				case 'Netpbm':
-					if (ereg("([0-9]+) by ([0-9]+)", $line, $regs)) {
+					if (preg_match('/([0-9]+) by ([0-9]+)/', $line, $regs)) {
 						return array($regs[1], $regs[2]);
 					}
 				break;
 
 				case 'ImageMagick':
-					if (ereg("([0-9]+)x([0-9]+)", $line, $regs)) {
+					if (preg_match('/([0-9]+)x([0-9]+)/', $line, $regs)) {
 						return array($regs[1], $regs[2]);
 					}
 				break;
@@ -554,7 +552,7 @@ function getExifDisplayTool() {
  * @author  Jens Tkotz
  */
 function hasExif($file) {
-	if(eregi('jpe?g$', $file)) {
+	if(preg_match('/jpe?g$/i', $file)) {
 		return true;
 	}
 	else {
@@ -581,17 +579,17 @@ function getItemCaptureDate($file, $exifData = array()) {
 		switch($exifSupported) {
 			case 'exiftags':
 				if (isset($exifData['Image Generated'])) {
-					$tempDate = split(" ", $exifData['Image Generated'], 2);
+					$tempDate = preg_split('/ /', $exifData['Image Generated'], 2);
 				}
 				elseif (isset($exifData['Image Created'])) {
-					$tempDate = split(" ", $exifData['Image Created'], 2);
+					$tempDate = preg_split('/ /', $exifData['Image Created'], 2);
 				}
 				
 			break;
 			
 			case 'jhead':
 				if (isset($exifData['Date/Time'])) {
-					$tempDate = split(" ", $exifData['Date/Time'], 2);
+					$tempDate = preg_split('/ /', $exifData['Date/Time'], 2);
 				}
 				
 			break;
@@ -645,8 +643,8 @@ function breakString($buf, $desired_len=40, $space_char=' ', $overflow=5) {
 	$result = '';
 	$col = 0;
 	for ($i = 0; $i < strlen($buf); $i++, $col++) {
-		$result .= $buf{$i};
-		if (($col > $desired_len && $buf{$i} == $space_char) ||
+		$result .= $buf[$i];
+		if (($col > $desired_len && $buf[$i] == $space_char) ||
 			($col > $desired_len + $overflow)) {
 			$col = 0;
 			$result .= '<br>';
@@ -784,7 +782,7 @@ function createZip($folderName = '', $zipName = '', $deleteSource = true) {
 }
 
 function escapeEregChars($string) {
-	return ereg_replace('(\.|\\\\|\+|\*|\?|\[|\]|\^|\$|\(|\)|\{|\}|\=|\!|<|>|\||\:)', '\\\\1', $string);
+	return preg_replace('/(\.|\\\\|\+|\*|\?|\[|\]|\^|\$|\(|\)|\{|\}|\=|\!|<|>|\||\:)/', '\\\\$1', $string);
 }
 
 /**
@@ -889,13 +887,13 @@ function pretty_password($pass, $print, $pre = '	') {
 	}
 
 	while (++$idx < $len) {
-		if (ereg('[[:upper:]]', $pass[$idx])) {
+		if (preg_match('/[[:upper:]]/', $pass[$idx])) {
 			$result .= $pre . $pass[$idx] . ' = Uppercase letter ' . $pass[$idx] . "\n";
 		}
-		elseif (ereg('[[:lower:]]', $pass[$idx])) {
+		elseif (preg_match('/[[:lower:]]/', $pass[$idx])) {
 			$result .= $pre . $pass[$idx] . ' = Lowercase letter ' . $pass[$idx] . "\n";
 		}
-		elseif (ereg('[[:digit:]]', $pass[$idx])) {
+		elseif (preg_match('/[[:digit:]]/', $pass[$idx])) {
 			$result .= $pre . $pass[$idx] . ' = Numerical number ' . $pass[$idx] . "\n";
 		}
 		else {
@@ -948,8 +946,8 @@ function getSVNRevision($file) {
 
 	$contents = file($path);
 	foreach ($contents as $line) {
-		if (ereg("\\\x24\x49\x64: [A-Za-z_.0-9-]* ([0-9]*) .*\x24$", trim($line), $matches) ||
-		    ereg("\\\x24\x49\x64: [A-Za-z_.0-9-]* ([0-9]*) .*\x24 ", trim($line), $matches))
+		if (preg_match("/\\\x24\x49\x64: [A-Za-z_.0-9-]* ([0-9]*) .*\x24$/", trim($line), $matches) ||
+		    preg_match("/\\\x24\x49\x64: [A-Za-z_.0-9-]* ([0-9]*) .*\x24 /", trim($line), $matches))
 		{
 			if ($matches[1]) {
 				return $matches[1];
@@ -1062,7 +1060,7 @@ if (!function_exists('glob')) {
 		$pattern = '^' . str_replace(array('*',  '?'), array('(.+)', '(.)'), $path_parts['basename'] . '$');
 		$dir = fs_opendir($path_parts['dirname']);
 		while ($file = readdir($dir)) {
-			if ($file != '.' && $file != '..' && ereg($pattern, $file)) {
+			if ($file != '.' && $file != '..' && preg_match('/' . $pattern . '/', $file)) {
 				$result[] = "{$path_parts['dirname']}/$file";
 			}
 		}
@@ -1291,43 +1289,16 @@ function array_sort_by_fields(&$data, $sortby, $order = 'asc', $caseSensitive = 
 	$order = ($order == 'asc') ? 1 : -1;
 
 	if (empty($sort_funcs[$sortby])) {
-		if ($special) {
-			$a = "\$a->fields[\"$sortby\"]";
-			$b = "\$b->fields[\"$sortby\"]";
-		}
-		else {
-			$a = "\$a['$sortby']";
-			$b = "\$b['$sortby']";
-		}
-
-		if ($caseSensitive) {
-			$code = "
-		$a = removeAccessKey($a);
-		$b = removeAccessKey($b);
-		if( $a == $b ) {
-			return 0;
+		$sort_func = $sort_funcs[$sortby] = function($a, $b) use ($sortby, $order, $caseSensitive, $special) {
+			$aVal = removeAccessKey($special ? $a->fields[$sortby] : $a[$sortby]);
+			$bVal = removeAccessKey($special ? $b->fields[$sortby] : $b[$sortby]);
+			if (!$caseSensitive) {
+				$aVal = strtoupper($aVal);
+				$bVal = strtoupper($bVal);
+			}
+			if ($aVal == $bVal) return 0;
+			return ($aVal > $bVal) ? $order : -1 * $order;
 		};
-		if ( $a > $b ) {
-			return $order;
-		} else {
-			return -1 * $order;
-		}";
-		}
-		else {
-			$code = "
-		$a = removeAccessKey($a);
-		$b = removeAccessKey($b);
-		if(strtoupper($a) == strtoupper($b)) {
-			return 0;
-		};
-		if (strtoupper($a) > strtoupper($b)) {
-			return $order;
-		} else {
-			return -1 * $order;
-		}";
-		}
-
-		$sort_func = $sort_funcs[$sortby] = create_function('$a, $b', $code);
 	} else {
 		$sort_func = $sort_funcs[$sortby];
 	}

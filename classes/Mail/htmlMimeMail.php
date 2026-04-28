@@ -25,7 +25,7 @@
 * along with htmlMimeMail; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 * 
-* © Copyright 2004 Richard Heyes
+* ï¿½ Copyright 2004 Richard Heyes
 */
 
 require_once(dirname(__FILE__) . '/mimePart.php');
@@ -110,7 +110,7 @@ class htmlMimeMail
 * if supplied.
 */
 
-	function htmlMimeMail()
+	function __construct()
 	{
 		/**
 		* Initialise some variables.
@@ -421,7 +421,7 @@ class htmlMimeMail
 		if (is_object($obj)) {
 			$ret = & $obj->addSubpart($text, $params);
 		} else {
-			$ret = & new Mail_mimePart($text, $params);
+			$ret = new Mail_mimePart($text, $params);
 		}
 		return $ret;
 	}
@@ -437,7 +437,7 @@ class htmlMimeMail
 		if (is_object($obj)) {
 			$ret = & $obj->addSubpart($this->html, $params);
 		} else {
-			$ret = & new Mail_mimePart($this->html, $params);
+			$ret = new Mail_mimePart($this->html, $params);
 		}
 		return $ret;
 	}
@@ -448,7 +448,7 @@ class htmlMimeMail
 	function &_addMixedPart()
 	{
 		$params['content_type'] = 'multipart/mixed';
-		$ret = & new Mail_mimePart('', $params);
+		$ret = new Mail_mimePart('', $params);
 		return $ret;
 	}
 
@@ -461,7 +461,7 @@ class htmlMimeMail
 		if (is_object($obj)) {
 			$ret = & $obj->addSubpart('', $params);
 		} else {
-			$ret = & new Mail_mimePart('', $params);
+			$ret = new Mail_mimePart('', $params);
 		}
 		return $ret;
 	}
@@ -475,7 +475,7 @@ class htmlMimeMail
 		if (is_object($obj)) {
 			$ret = & $obj->addSubpart('', $params);
 		} else {
-			$ret = & new Mail_mimePart('', $params);
+			$ret = new Mail_mimePart('', $params);
 		}
 		return $ret;
 	}
@@ -633,7 +633,7 @@ class htmlMimeMail
 			$this->headers  = array_merge($this->headers, $output['headers']);
 
 			// Add message ID header
-			srand((double)microtime()*10000000);
+			mt_srand();
 			$message_id = sprintf('<%s.%s@%s>', base_convert(time(), 10, 36), base_convert(rand(), 10, 36), !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
 			$this->headers['Message-ID'] = $message_id;
 

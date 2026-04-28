@@ -34,7 +34,7 @@ class Image {
 	var $raw_height;
 	var $version;
 
-	function Image() {
+	function __construct() {
 		global $gallery;
 
 		// Seed new images with the appropriate version.
@@ -189,7 +189,7 @@ class Image {
 		$type = $this->type;
 
 		if($cropResized) {
-			$path = "$dir/${name}.sized.$type";
+			$path = "$dir/{$name}.sized.$type";
 			$this->width = $width;
 			$this->height = $height;
 		}

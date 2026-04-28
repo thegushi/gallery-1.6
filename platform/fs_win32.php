@@ -192,17 +192,17 @@ function fs_import_filename($filename, $for_exec=1) {
 	# Change D;\apps to D:\apps (the : got mangled by the above
 	# transform).
 	#
-	if ($filename{1} == ';') {
-		$filename{1} = ':';
+	if ($filename[1] == ';') {
+		$filename[1] = ':';
 	}
 
 	# Convert "D\whoami" to "D:\whoami"
 	#
-	$filename = ereg_replace("^([A-Z])\\\\(.*)", "\\1:\\\\2", $filename);
+	$filename = preg_replace('/^([A-Z])\\\\(.*)/', "$1:\\\\$2", $filename);
 
 	# Convert "\Perl\bin\;D/whoami" to "D:\Perl\bin\whoami"
 	#
-	$filename = ereg_replace("(.*);([A-Z])\\\\(.*)", "\\2:\\1\\3", $filename);
+	$filename = preg_replace('/(.*);([A-Z])\\\\(.*)/', "$2:$1$3", $filename);
 
 	if ($for_exec) {
 		if (strstr($filename, " ")) {
@@ -237,7 +237,7 @@ function fs_tempdir() {
 }
 
 function fs_is_executable($filename) {
-	return eregi("\.(exe|com|vbs|vb|bat|cmd)$", $filename);
+	return preg_match('/\.(exe|com|vbs|vb|bat|cmd)$/i', $filename);
 }
 
 function debug($msg) {

@@ -227,15 +227,15 @@ function watermark_image($src, $dest, $wmName, $wmAlphaName, $wmAlign, $wmAlignX
 				break;
 
 			case 'Netpbm':
-				if (eregi('\.png$',$wmName, $regs)) {
+				if (preg_match('/\.png$/i', $wmName, $regs)) {
 					list ($overlayFile, $alphaFile) = netpbm_decompose_image($wmName, "png");
 					$tmpOverlay = 1;
 				}
-				elseif (eregi('\.tiff?$',$wmName, $regs)) {
+				elseif (preg_match('/\.tiff?$/i', $wmName, $regs)) {
 					list ($overlayFile, $alphaFile) = netpbm_decompose_image($wmName, "tif");
 					$tmpOverlay = 1;
 				}
-				elseif (eregi('\.gif$',$wmName, $regs)) {
+				elseif (preg_match('/\.gif$/i', $wmName, $regs)) {
 					list ($overlayFile, $alphaFile) = netpbm_decompose_image($wmName, "gif");
 					$tmpOverlay = 1;
 				}
@@ -306,7 +306,7 @@ function watermark_image($src, $dest, $wmName, $wmAlphaName, $wmAlign, $wmAlignX
 
 		case 10: // Other
 			// Check for percents
-			if (ereg('([0-9]+)(\%?)', $wmAlignX, $regs)) {
+			if (preg_match('/([0-9]+)(\%?)/', $wmAlignX, $regs)) {
 				if ($regs[2] == '%') {
 					$wmAlignX = round($regs[1] / 100 * ($srcSize[0] - $overlaySize[0]));
 				}
@@ -318,7 +318,7 @@ function watermark_image($src, $dest, $wmName, $wmAlphaName, $wmAlign, $wmAlignX
 				$wmAlignX = 0;
 			}
 
-			if (ereg('([0-9]+)(\%?)', $wmAlignY, $regs)) {
+			if (preg_match('/([0-9]+)(\%?)/', $wmAlignY, $regs)) {
 				if ($regs[2] == '%') {
 					$wmAlignY = round($regs[1] / 100 * ($srcSize[1] - $overlaySize[1]));
 				}
@@ -601,7 +601,7 @@ function cut_image($src, $dest, $offsetX, $offsetY, $width, $height) {
 			else {
 				$repage = "+repage";
 			}
-			exec_wrapper(ImCmd(fs_executable('convert'), '', $srcFile, "-crop ${width}x${height}+${offsetX}+${offsetY} $repage", $outFile));
+			exec_wrapper(ImCmd(fs_executable('convert'), '', $srcFile, "-crop {$width}x{$height}+{$offsetX}+{$offsetY} $repage", $outFile));
 		break;
 
 		default:
@@ -727,13 +727,13 @@ function fromPnmCmd($file, $quality = NULL) {
 		$quality = $gallery->app->jpegImageQuality;
 	}
 
-	if (eregi("\.png(\.tmp)?\$", $file)) {
+	if (preg_match('/\.png(\.tmp)?$/i', $file)) {
 		$cmd = netpbm("pnmtopng");
 	}
-	elseif (eregi("\.jpe?g(\.tmp)?\$", $file)) {
+	elseif (preg_match('/\.jpe?g(\.tmp)?$/i', $file)) {
 		$cmd = netpbm($gallery->app->pnmtojpeg, "--quality=$quality");
 	}
-	elseif (eregi("\.gif(\.tmp)?\$", $file)) {
+	elseif (preg_match('/\.gif(\.tmp)?$/i', $file)) {
 		$cmd = netpbm("ppmquant", "256") . " | " . netpbm("ppmtogif");
 	}
 
@@ -793,7 +793,7 @@ function ImCmd($cmd, $srcOperator, $src, $destOperator, $dest) {
 	return $cmdLine;
 }
 
-function compressImage($src = '', $dest = '', $targetSize = 0, $quality, $keepProfiles = false, $createThumbnail = false) {
+function compressImage($src = '', $dest = '', $targetSize = 0, $quality = 75, $keepProfiles = false, $createThumbnail = false) {
 	debugMessage(sprintf(gTranslate('common', "Compressing image: %s"), $src), __FILE__, __LINE__);
 
 	global $gallery;
@@ -838,7 +838,7 @@ function compressImage($src = '', $dest = '', $targetSize = 0, $quality, $keepPr
 			/* copy over EXIF data if a JPEG if $keepProfiles is set.
 			*  Unfortunately, we can't also keep comments.
 			*/
-			if ($keepProfiles && eregi('\.jpe?g$', $src)) {
+			if ($keepProfiles && preg_match('/\.jpe?g$/i', $src)) {
 				if (isset($gallery->app->use_exif)) {
 					exec_wrapper(fs_import_filename($gallery->app->use_exif, 1) .
 								 ' -te ' . $srcFile . ' ' . $destFile);
@@ -877,29 +877,29 @@ function compressImage($src = '', $dest = '', $targetSize = 0, $quality, $keepPr
 			if ($targetSize) {
 				if ($createThumbnail) {
 					if ($ImVersion < 6) {
-						$destOperator .= " -resize ${targetSize}x${targetSize}";
+						$destOperator .= " -resize {$targetSize}x{$targetSize}";
 					}
 					else {
-						$srcOperator = "-size ${targetSize}x${targetSize}";
-						$destOperator .= " -thumbnail ${targetSize}x${targetSize}";
+						$srcOperator = "-size {$targetSize}x{$targetSize}";
+						$destOperator .= " -thumbnail {$targetSize}x{$targetSize}";
 					}
 				}
 				else {
 					if ($ImVersion < 6) {
-						$destOperator .= " -resize ${targetSize}x${targetSize} $stripProfiles";
+						$destOperator .= " -resize {$targetSize}x{$targetSize} $stripProfiles";
 					}
 					else {
 						if($gallery->app->IM_HQ == 'yes') {
 							echo debugMessage(gTranslate('common', "Using IM high quality."), __FILE__, __LINE__, 3);
 						}
 						else {
-							$srcOperator = "-size ${targetSize}x${targetSize}";
+							$srcOperator = "-size {$targetSize}x{$targetSize}";
 							echo debugMessage(gTranslate('common', "Not using IM high quality."), __FILE__, __LINE__, 3);
 						}
-						$destOperator .= " -resize ${targetSize}x${targetSize} $stripProfiles";
+						$destOperator .= " -resize {$targetSize}x{$targetSize} $stripProfiles";
 					}
 				}
-				//$geometryCmd = "-coalesce -geometry ${targetSize}x${targetSize} ";
+				//$geometryCmd = "-coalesce -geometry {$targetSize}x{$targetSize} ";
 			}
 
 			return exec_wrapper(ImCmd(fs_executable('convert'), $srcOperator, $srcFile, $destOperator, $destFile));

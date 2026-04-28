@@ -44,7 +44,7 @@ class AlbumItem {
 	var $emailMe;
 	var $imageAreas;
 
-	function AlbumItem() {
+	function __construct() {
 		global $gallery;
 		$this->version = $gallery->album_version;
 		$this->extraFields = array();
@@ -922,7 +922,7 @@ class AlbumItem {
 		}
 	}
 
-	function getPhotoTag($dir, $full = false, $attrs) {
+	function getPhotoTag($dir, $full = false, $attrs = array()) {
 		if (empty($attrs['alt'])) {
 			$attrs['alt'] = $this->getAlttext();
 		}

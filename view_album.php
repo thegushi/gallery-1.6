@@ -625,7 +625,7 @@ if ($numPhotos) {
 
 							$albumItems[$nr]['dimensions'] = galleryLink(
 								$sizedImageUrl,
-								"[${wr}x{$hr}${fsr}] ",
+								"[{$wr}x{$hr}{$fsr}] ",
 								$attrlist
 							);
 						}
@@ -647,7 +647,7 @@ if ($numPhotos) {
 
 							$albumItems[$nr]['dimensions'] .= galleryLink(
 								$fullImageUrl,
-								"[${wf}x${hf}${fsf}]",
+								"[{$wf}x{$hf}{$fsf}]",
 								$attrlist
 							);
 						}

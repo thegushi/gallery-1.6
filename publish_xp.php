@@ -385,7 +385,7 @@ if (!strcmp($cmd, "add-item")) {
 	else {
 		$name = $_FILES['userfile']['name'];
 		$file = $_FILES['userfile']['tmp_name'];
-		$tag = ereg_replace(".*\.([^\.]*)$", "\\1", $name);
+		$tag = preg_replace('/.*\.([^\.]*)$/', "\\1", $name);
 		$tag = strtolower($tag);
 
 		if (!empty($name) && isXSSclean($name,0 )) {

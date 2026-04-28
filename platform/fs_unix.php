@@ -206,7 +206,7 @@ function fs_mkdir($dirname, $perms = 0700) {
  * @author  Jens Tkotz
 */
 function fs_fileIsHidden($filename) {
-	if($filename{0} == '.') {
+	if($filename[0] == '.') {
 		return true;
 	}
 	else {

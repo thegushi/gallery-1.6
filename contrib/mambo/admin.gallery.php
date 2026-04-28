@@ -109,7 +109,7 @@ function saveSettings( $option, $act ) {
 		echo "<script> alert('Path must be a full server path to your Gallery!'); window.history.go(-1); </script>\n";
 		die;
 	}
-	if (!ereg('[/\\]$', $path)) {
+	if (!preg_match('#[/\\\\]$#', $path)) {
 		$path .= addslashes(DIRECTORY_SEPARATOR);
 	}
 	$params['path'] = $path;

@@ -25,7 +25,7 @@ class AlbumDB {
 	var $albumOrder;
 	var $initialized;
 
-	function AlbumDB($loadphotos = true) {
+	function __construct($loadphotos = true) {
 		global $gallery;
 
 		$changed = 0;
@@ -65,7 +65,7 @@ class AlbumDB {
 			$i = 0;
 			while ($i < sizeof($this->albumOrder)) {
 				$name = $this->albumOrder[$i];
-				if (ereg("^\.", $name)) { // how did this get here??
+				if (preg_match('/^\./', $name)) { // how did this get here??
 					array_splice($this->albumOrder, $i, 1);
 					$changed = 1;
 				}
@@ -91,7 +91,7 @@ class AlbumDB {
 
 			if ($fd = fs_opendir($dir)) {
 				while ($file = readdir($fd)) {
-					if (!ereg("^\.", $file) &&
+					if (!preg_match('/^\./', $file) &&
 						fs_is_dir("$dir/$file") &&
 						!in_array($file, $allowedInvalidAlbums) &&
 						!in_array($file, $this->albumOrder))
@@ -207,7 +207,7 @@ class AlbumDB {
 					break;
 
 				default:
-					if (!ereg('[0-9][0-9]$', $name)) {
+					if (!preg_match('/[0-9][0-9]$/', $name)) {
 						$name .= "00";
 					}
 					$name++;

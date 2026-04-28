@@ -28,7 +28,7 @@ class Geeklog_User extends Abstract_User {
 
 	var $isGroup;
 
-	function Geeklog_User() {
+	function __construct() {
 		global $gallery;
 	}
 

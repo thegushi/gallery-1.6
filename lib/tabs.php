@@ -155,7 +155,7 @@ function makeSimpleSectionContent($array, $initialtab = '') {
 
 			echo "\n<div id=\"$key\" style=\"display: $display\">";
 			echo make_separator($key, $val);
-			echo "\n<div>${val['content']}</div>";
+			echo "\n<div>{$val['content']}</div>";
 			echo "\n</div>";
 			continue;
 		}

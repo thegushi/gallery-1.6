@@ -122,7 +122,7 @@ if (!strcmp($cmd, "add-item")) {
 
 		$name = $userfile_name;
 		$file = $userfile;
-		$tag = ereg_replace(".*\.([^\.]*)$", "\\1", $name);
+		$tag = preg_replace('/.*\.([^\.]*)$/', "\\1", $name);
 		$tag = strtolower($tag);
 
 		if ($name) {
@@ -256,14 +256,14 @@ function process($file, $tag, $name, $setCaption="") {
 		$name = urldecode($name);
 
 		// parse out original filename without extension
-		$originalFilename = eregi_replace(".$tag$", "", $name);
+		$originalFilename = preg_replace('#.' . $tag . '$#i', '', $name);
 
 		// replace multiple non-word characters with a single "_"
-		$mangledFilename = ereg_replace("[^[:alnum:]]", "_", $originalFilename);
+		$mangledFilename = preg_replace('/[^[:alnum:]]/', '_', $originalFilename);
 
 		/* Get rid of extra underscores */
-		$mangledFilename = ereg_replace("_+", "_", $mangledFilename);
-		$mangledFilename = ereg_replace("(^_|_$)", "", $mangledFilename);
+		$mangledFilename = preg_replace('/_+/', '_', $mangledFilename);
+		$mangledFilename = preg_replace('/(^_|_$)/', '', $mangledFilename);
 
 		/*
 		need to prevent users from using original filenames that are purely numeric.
@@ -272,7 +272,7 @@ function process($file, $tag, $name, $setCaption="") {
 		RewriteRule ^([^\.\?/]+)/([0-9]+)$  /~jpk/gallery/view_photo.php?set_albumName=$1&index=$2  [QSA]
 		*/
 
-		if (ereg("^([0-9]+)$", $mangledFilename)) {
+		if (preg_match('/^([0-9]+)$/', $mangledFilename)) {
 			$mangledFilename .= "_G";
 		}
 

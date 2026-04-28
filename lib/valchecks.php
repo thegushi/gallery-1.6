@@ -153,7 +153,7 @@ function isValidGalleryInteger($value, $includingZero = false, $emptyAllowed = f
 	$minimum = ($includingZero == true) ? 0 : 1;
 
 	if($value === '' || !isset($value)) {
-		$result = (boolean) $emptyAllowed;
+		$result = (bool) $emptyAllowed;
 	}
 	elseif($value < $minimum || intval($value) != $value) {
 		$result = false;
@@ -363,7 +363,7 @@ function isXSSclean($string, $level = 1) {
  * @author Jens Tkotz
  */
 function hasValidGroupIdFormat($string) {
-	if (ereg("^g_[0-9].*[0-9]$", $string)) {
+	if (preg_match('/^g_[0-9].*[0-9]$/', $string)) {
 		return true;
 	}
 	else {
@@ -384,10 +384,10 @@ function validAlbumName($name) {
 	$name = str_replace("'", "", $name);
 	$name = str_replace("`", "", $name);
 	$name = strtr($name, "%\\/*?\"<>|& .+#(){}~", "-------------------");
-	$name = ereg_replace("\-+", "-", $name);
-	$name = ereg_replace("\-+$", "", $name);
-	$name = ereg_replace("^\-", "", $name);
-	$name = ereg_replace("\-$", "", $name);
+	$name = preg_replace('/-+/', '-', $name);
+	$name = preg_replace('/-+$/', '', $name);
+	$name = preg_replace('/^-/', '', $name);
+	$name = preg_replace('/-$/', '', $name);
 
 	if ($name != $nameOrig) {
 		$ret = $name;
@@ -491,7 +491,7 @@ function cleanRepetition($partLen, $string) {
 		$repeated = true;
 
 		for ($j = 0; $j < $partLen && ($j + $i + $partLen) < strlen($string) ; $j++) {
-			$repeated = $repeated && ($string{($j + $i)} == $string{($j + $i + $partLen)});
+			$repeated = $repeated && ($string[($j + $i)] == $string[($j + $i + $partLen)]);
 		}
 
 		if ($j < $partLen) {
@@ -503,7 +503,7 @@ function cleanRepetition($partLen, $string) {
 			$repeated = false;
 		}
 		else {
-			$cleaned .= $string{$i};
+			$cleaned .= $string[$i];
 		}
 
 	}

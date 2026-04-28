@@ -30,8 +30,8 @@ class Nuke5_AdminUser extends Abstract_User {
 
 	function Nuke5_AdminUser($admin) {
 		global $gallery;
-		$this->db = $gallery->database{"nuke"};
-		$this->prefix = $gallery->database{"prefix"};
+		$this->db = $gallery->database["nuke"];
+		$this->prefix = $gallery->database["prefix"];
 
 		if(!is_array($admin)) {
 			$admin = base64_decode($admin);

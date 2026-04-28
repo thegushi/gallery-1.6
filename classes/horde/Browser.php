@@ -253,7 +253,7 @@ class Browser {
      * @param string $userAgent  The browser string to parse.
      * @param string $accept     The HTTP_ACCEPT settings to use.
      */
-    function Browser($userAgent = null, $accept = null)
+    function __construct($userAgent = null, $accept = null)
     {
         $this->match($userAgent, $accept);
     }

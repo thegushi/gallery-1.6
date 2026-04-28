@@ -34,7 +34,7 @@ class Gallery_User extends Abstract_User {
 	var $origEmail;
 	// the email from original account creation.  Just incase user goes feral
 
-	function Gallery_User() {
+	function __construct() {
 		Abstract_User::Abstract_User();
 		$this->setDefaultLanguage('');
 
@@ -63,7 +63,7 @@ class Gallery_User extends Abstract_User {
 		 * any saved user objects.
 		 */
 		if (!strcmp(substr($tmp, 0, 10), 'O:4:"user"')) {
-			$tmp = ereg_replace('O:4:"user"', 'O:12:"gallery_user"', $tmp);
+			$tmp = preg_replace('/O:4:"user"/', 'O:12:"gallery_user"', $tmp);
 			foreach (unserialize($tmp) as $k => $v) {
 				$this->$k = $v;
 			}

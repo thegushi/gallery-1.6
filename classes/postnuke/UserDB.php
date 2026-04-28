@@ -28,10 +28,10 @@ class PostNuke_UserDB extends Abstract_UserDB {
 	var $db;
 	var $prefix;
 
-	function PostNuke_UserDB() {
+	function __construct() {
 		global $gallery;
-		$this->db = $gallery->database{"db"};
-		$this->prefix = $gallery->database{"prefix"};
+		$this->db = $gallery->database["db"];
+		$this->prefix = $gallery->database["prefix"];
 		$this->nobody = new NobodyUser();
 		$this->everybody = new EverybodyUser();
 		$this->loggedIn = new LoggedInUser();
@@ -43,7 +43,7 @@ class PostNuke_UserDB extends Abstract_UserDB {
 		$db = $this->db;
 
 		$result = $db->Execute("SELECT uid from " .
-					   $gallery->database{"prefix"} . "users");
+					   $gallery->database["prefix"] . "users");
 		while (list($uid) = $result->fields) {
 			array_push($uidList, $uid);
 			$result->MoveNext();

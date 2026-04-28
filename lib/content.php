@@ -402,7 +402,7 @@ function displayPhotoFields($index, $extra_fields, $withExtraFields = true, $wit
 	}
 
 	if ($withExif && (isset($gallery->app->use_exif) || isset($gallery->app->exiftags)) &&
-	   (eregi("jpe?g\$", $photo->image->type))) {
+	   (preg_match('/jpe?g$/i', $photo->image->type))) {
 		$myExif = $gallery->album->getExif($index, $forceRefresh);
 
 		 if (!empty($myExif) && !isset($myExif['Error'])) {
@@ -811,14 +811,14 @@ function _getStyleSheetLink($filename, $skinname = '') {
 	if (fs_file_exists("$base/$sheetname")) {
 		$file = $sheetname;
 	}
-	elseif (fs_file_exists("$base/${sheetname}.default")) {
-		$file = "${sheetname}.default";
+	elseif (fs_file_exists("$base/{$sheetname}.default")) {
+		$file = "{$sheetname}.default";
 	}
 	elseif (fs_file_exists("$base/$sheetdefaultname")) {
 		$file = $sheetdefaultname;
 	}
 	else {
-		$file = "${sheetdefaultname}.default";
+		$file = "{$sheetdefaultname}.default";
 	}
 
 	$url = getGalleryBaseUrl() ."/$file";
@@ -1534,7 +1534,7 @@ function initAutocompleteJS ($label, $inputName, $id, $enableAutocomplete = fals
 	$html = "
 	<div class=\"YUIsearchdiv right5 floatleft\">$label
 		<input name=\"$inputName\" id=\"$id\" class=\"YUIsearchinput\" type=\"text\" size=\"75\"$disable>
-		<div id=\"${id}_container\" class=\"YUIsearchcontainer\"></div>
+		<div id=\"{$id}_container\" class=\"YUIsearchcontainer\"></div>
 	</div>
 	";
 
@@ -1632,7 +1632,7 @@ function toggleBox($id, $text, $toggleButton = 'prepend') {
  *					The second is the complete readMoreBox
  * @author Jens Tkotz
  */
-function readMoreBox($panelID, $panelHeaderText = '', $text, $cutAfter = 0, $readMoreText = '' , $contextId = '') {
+function readMoreBox($panelID, $panelHeaderText = '', $text = '', $cutAfter = 0, $readMoreText = '' , $contextId = '') {
 	if(empty($text)) return array(false, '');
 
 	$textLength = strlen($text);
@@ -1802,7 +1802,7 @@ function sanitizeInput($value) {
 	static $safehtml;
 
 	if (empty($safehtml)) {
-		$safehtml =& new HTML_Safe();
+		$safehtml = new HTML_Safe();
 	}
 
 	if(is_array($value)) {

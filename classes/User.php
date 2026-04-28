@@ -37,7 +37,7 @@ class Abstract_User {
 	var $uid;
 	var $canChangeOwnPw;
 
-	function Abstract_User() {
+	function __construct() {
 		$this->setIsAdmin(false);
 		$this->setCanCreateAlbums(false);
 		$this->uid = time() . "_" . mt_rand();
@@ -146,12 +146,7 @@ class Abstract_User {
 	}
 
 	function getFullName() {
-		if (get_magic_quotes_gpc()) {
-			return stripslashes($this->fullname);
-		}
-		else {
-			return $this->fullname;
-		}
+		return $this->fullname;
 	}
 
 	function isAdmin() {

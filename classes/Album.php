@@ -34,7 +34,7 @@ class Album {
 	 * database.  Data like the mirrorUrl which we want to validate
 	 * the first time we touch an album.
 	*/
-	function Album() {
+	function __construct() {
 		global $gallery;
 
 		$this->transient = new stdClass();
@@ -145,7 +145,7 @@ class Album {
 		$this->setPerm("canViewComments", $UserToPerm->getUid(), 1);
 		$this->setPerm("canAddComments", $UserToPerm->getUid(), 1);
 
-		$this->fields['extra_fields'] = split(",", trim($gallery->app->default['extra_fields']));
+		$this->fields['extra_fields'] = preg_split('/,/', trim($gallery->app->default['extra_fields']));
 		foreach ($this->fields['extra_fields'] as $key => $value) {
 			$value = trim($value);
 			if (empty($value)) {
@@ -1421,7 +1421,7 @@ class Album {
 				    ((isMovie($tag) || $tag=="jpg") && file_exists("$dir/$name.thumb.jpg")))
 				{
 					// append a 3 digit number to the end of the filename if it exists already
-					if (!ereg("_[[:digit:]]{3}$", $name)) {
+					if (!preg_match('/_[[:digit:]]{3}$/', $name)) {
 						$name = $name . "_001";
 					}
 
@@ -1797,7 +1797,7 @@ class Album {
 		}
 
 		if(empty($attrs['id']) && ! in_array($index, $usedIDs)) {
-			$attrs['id'] = "thumbnail_${index}";
+			$attrs['id'] = "thumbnail_{$index}";
 			$usedIDs[] = $index;
 		}
 
@@ -1978,7 +1978,7 @@ class Album {
 		    isset($gallery->app->mirrorSites) &&
 		    strcmp($type, "highlight"))
 		{
-			foreach(split("[[:space:]]+", $gallery->app->mirrorSites) as $base_url) {
+			foreach(preg_split('/[[:space:]]+/', $gallery->app->mirrorSites) as $base_url) {
 				$base_url .= $albumPath;
 				$serial = $base_url . "/serial.{$this->fields['serial_number']}.dat";
 
@@ -3606,9 +3606,9 @@ class Album {
 
 	function getIndexByVotingId($vote_id) {
 		global $gallery;
-		if (ereg("^item\.(.*)$", $vote_id, $matches)) {
+		if (preg_match('/^item\.(.*)$/', $vote_id, $matches)) {
 			$index = $this->getPhotoIndex($matches[1]);
-		} else if (ereg("^album\.(.*)$", $vote_id, $matches)) {
+		} else if (preg_match('/^album\.(.*)$/', $vote_id, $matches)) {
 			$index = $this->getAlbumIndex($matches[1]);
 			if ($index > 0) {
 				$myAlbum = new Album();

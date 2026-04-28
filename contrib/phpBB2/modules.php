@@ -62,7 +62,7 @@ switch ($_REQUEST['op']) {
 		// End session management
 
 		// Security fix
-		if (ereg("\.\.",$name) || ereg("\.\.",$file)) {
+		if (preg_match('/\.\./', $name) || preg_match('/\.\./', $file)) {
 			echo 'Nice try :-)';
 			break;
 		} else {

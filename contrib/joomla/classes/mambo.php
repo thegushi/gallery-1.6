@@ -540,7 +540,7 @@ class mosMainFrame {
 		$this->_db->query();
 
 		// tease out the last element of the domain
-		$tldomain = split( "\.", $domain );
+		$tldomain = preg_split('/\./', $domain);
 		$tldomain = $tldomain[count( $tldomain )-1];
 
 		if (is_numeric( $tldomain )) {
@@ -1134,7 +1134,7 @@ class mosUser extends mosDBTable {
 			return false;
 		}
 
-		if (eregi( "[^0-9A-Za-z]", $this->username)) {
+		if (preg_match('/[^0-9A-Za-z]/i', $this->username)) {
 			$this->_error = sprintf( _VALID_AZ09, "login name." );
 			return false;
 		}
@@ -1269,13 +1269,13 @@ function mosBindArrayToObject( $array, &$obj, $prefix=NULL, $checkSlashes=true )
 	if ($prefix) {
 		foreach (get_object_vars($obj) as $k => $v) {
 			if (isset($array[$prefix . $k ])) {
-				$obj->$k = ($checkSlashes && get_magic_quotes_gpc()) ? stripslashes( $array[$k] ) : $array[$k];
+				$obj->$k = $array[$k];
 			}
 		}
 	} else {
 		foreach (get_object_vars($obj) as $k => $v) {
 			if (isset($array[$k])) {
-				$obj->$k = ($checkSlashes && get_magic_quotes_gpc()) ? stripslashes( $array[$k] ) : $array[$k];
+				$obj->$k = $array[$k];
 			}
 		}
 	}
@@ -1672,7 +1672,7 @@ function mosMenuCheck( $Itemid, $menu_option, $gid, &$db ) {
 
 function mosFormatDate( $date, $format=_DATE_FORMAT_LC ){
 	global $mosConfig_offset;
-	if ( $date && ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})", $date, $regs ) ) {
+	if ( $date && preg_match('/([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})/', $date, $regs ) ) {
 		$date = mktime( $regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1] );
 		$date = $date > -1 ? strftime( $format, $date + ($mosConfig_offset*3600) ) : '-';
 	}
@@ -1681,7 +1681,7 @@ function mosFormatDate( $date, $format=_DATE_FORMAT_LC ){
 
 function mosCreateGUID(){
 	$r = mt_rand();
-	$u = uniqid(getmypid() . $r . (double)microtime()*1000000,1);
+	$u = uniqid(getmypid() . $r . (float)microtime()*1000000,1);
 	$m = md5($u);
 	return($m);
 }

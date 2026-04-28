@@ -30,7 +30,7 @@ list($gnames, $deleteGroup, $backToUsers, $backToGroups) =
 
 if (!$gallery->user->isAdmin()) {
 	printPopupStart(gTranslate('core', "Delete Gallery usergroup"), '', 'left');
-	showInvalidReqMesg(echo gTranslate('core', "You are not allowed to perform this action!"));
+	showInvalidReqMesg(gTranslate('core', "You are not allowed to perform this action!"));
 	exit;
 }
 

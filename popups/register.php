@@ -100,10 +100,10 @@ if (!empty($formaction) && $formaction == 'create') {
 		$tmpUser->origEmail=$email;
 		$tmpUser->log("self_register");
 		$tmpUser->setDefaultLanguage($defaultLanguage);
-		$msg = ereg_replace("!!PASSWORD!!", $password,
-		   ereg_replace("!!USERNAME!!", $uname,
-		   ereg_replace("!!FULLNAME!!", $fullname,
-		   ereg_replace("!!NEWPASSWORDLINK!!",
+		$msg = preg_replace('/!!PASSWORD!!/', $password,
+		   preg_replace('/!!USERNAME!!/', $uname,
+		   preg_replace('/!!FULLNAME!!/', $fullname,
+		   preg_replace('/!!NEWPASSWORDLINK!!/',
 		   $tmpUser->genRecoverPasswordHash(),
 			welcome_email()))));
 		$logmsg = sprintf(gTranslate('core', "%s has registered.  Email has been sent to %s."), $uname, $email);

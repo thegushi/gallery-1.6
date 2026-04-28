@@ -113,10 +113,10 @@ if (!empty($searchstring)) {
 		$searchSummary = $searchAlbum->fields['summary'];
 		$searchName = $searchAlbum->fields['name'];
 
-		$matchTitle = eregi("$searchstring", $searchTitle);
-		$matchDescription = eregi("$searchstring", $searchDescription);
-		$matchSummary = eregi("$searchstring", $searchSummary);
-		$matchName = eregi("$searchstring", $searchName);
+		$matchTitle = preg_match('#' . $searchstring . '#i', $searchTitle);
+		$matchDescription = preg_match('#' . $searchstring . '#i', $searchDescription);
+		$matchSummary = preg_match('#' . $searchstring . '#i', $searchSummary);
+		$matchName = preg_match('#' . $searchstring . '#i', $searchName);
 
 		if ($matchTitle || $matchDescription || $matchSummary | $matchName) {
 			$searchTitle = preg_replace($searchExpr, $searchRepl, $searchTitle); // cause search word to be bolded
@@ -172,7 +172,7 @@ if (!empty($searchstring)) {
 					}
 					$searchComment .= ": ".$comment->getCommentText();
 
-					if (eregi($searchstring, $searchComment)) {
+					if (preg_match('#' . $searchstring . '#i', $searchComment)) {
 						if (!$commentMatch) {
 							$commentText = gTranslate('core', "Matching Comments").":<br>";
 							$commentMatch = 1;
@@ -189,16 +189,16 @@ if (!empty($searchstring)) {
 			$extraFieldsText = '';
 			foreach ($searchAlbum->getExtraFields() as $field) {
 				$fieldValue=$searchAlbum->getExtraField($j, $field);
-				if (eregi($searchstring, $fieldValue)) {
+				if (preg_match('#' . $searchstring . '#i', $fieldValue)) {
 					$fieldValue = preg_replace($searchExpr, $searchRepl, $fieldValue);
 					$extraFieldsText .= "<b>$field:</b> $fieldValue<br><br>";
 					$extraFieldsMatch = 1;
 				}
 			}
 
-			$captionMatch = eregi($searchstring, $searchCaption);
-			$keywordMatch = eregi($searchstring, $searchKeywords);
-			$nameMatch = eregi($searchstring, $searchName);
+			$captionMatch = preg_match('#' . $searchstring . '#i', $searchCaption);
+			$keywordMatch = preg_match('#' . $searchstring . '#i', $searchKeywords);
+			$nameMatch = preg_match('#' . $searchstring . '#i', $searchName);
 
 			unset($text);
 

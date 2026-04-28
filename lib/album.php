@@ -460,13 +460,13 @@ function getYUIHtmlTree($tree, $depth = 0, $parentNode = 'main') {
 		$html .= "
 		<script type=\"text/javascript\">
 			var tree_$treeName = new YAHOO.widget.TreeView(\"tree_$treeName\");
-			var root_$treeName = tree_${treeName}.getRoot();
+			var root_$treeName = tree_{$treeName}.getRoot();
 
 			var main_$treeName = new YAHOO.widget.TextNode(\"". gTranslate('common', "Sub-albums:") ."\", root_$treeName, false);
 		";
 
 		if($parentNode == 'main') {
-			$parentNode = "main_${treeName}";
+			$parentNode = "main_{$treeName}";
 		}
 	}
 
@@ -474,8 +474,8 @@ function getYUIHtmlTree($tree, $depth = 0, $parentNode = 'main') {
 		$nodename = 'node_' . strtr($content['albumName'], '-', '_');
 
 		$label = addslashes($content['title'] . ' '. $content['clicksText']);
-		$html .= "\n\t var ${nodename}_obj = { label: \"$label\", href:\"${content['albumUrl']}\" }";
-		$html .= "\n\t var $nodename = new YAHOO.widget.TextNode(${nodename}_obj, $parentNode, false);";
+		$html .= "\n\t var {$nodename}_obj = { label: \"$label\", href:\"{$content['albumUrl']}\" }";
+		$html .= "\n\t var $nodename = new YAHOO.widget.TextNode({$nodename}_obj, $parentNode, false);";
 
 		if(!empty($content['subTree'])) {
 			$html .= getYUIHtmlTree($content['subTree'], $depth + 1, $nodename);

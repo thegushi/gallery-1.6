@@ -38,7 +38,7 @@
  * @return  string  $translation	string with translation on success, otherwise '--- TranslationError --'
  * @author  Jens Tkotz
  */
-function gTranslate($domain = null, $singular, $plural = '', $count = null, $nonetext = '', $short = false) {
+function gTranslate($domain = null, $singular = '', $plural = '', $count = null, $nonetext = '', $short = false) {
 	global $gallery;
 
 	$allowedDomain = array('config', 'common', 'core');
@@ -665,7 +665,7 @@ function getNLS() {
 		$dir = dirname(dirname(__FILE__)) . '/locale';
 		if (fs_is_dir($dir) && is_readable($dir) && $handle = fs_opendir($dir)) {
 			while ($dirname = readdir($handle)) {
-				if (ereg("^([a-z]{2}_[A-Z]{2})", $dirname)) {
+				if (preg_match('/^([a-z]{2}_[A-Z]{2})/', $dirname)) {
 					$locale = $dirname;
 					$fc = 0;
 					foreach ($modules as $module) {

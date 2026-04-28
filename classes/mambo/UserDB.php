@@ -31,22 +31,22 @@ class Mambo_UserDB extends Abstract_UserDB {
 	var $db;
 	var $fields;
 
-	function Mambo_UserDB() {
+	function __construct() {
 		global $gallery;
 
-		$this->db = $gallery->database{'mambo'};
-		$this->prefix = $gallery->database{'user_prefix'};
+		$this->db = $gallery->database['mambo'];
+		$this->prefix = $gallery->database['user_prefix'];
 		$this->nobody = new NobodyUser();
 		$this->everybody = new EverybodyUser();
 		$this->loggedIn = new LoggedInUser();
-		$this->fields = $gallery->database{'fields'};
+		$this->fields = $gallery->database['fields'];
 	}
 
 	function getUidList() {
 		$uidList = array();
 		$db = $this->db;
 
-		$results = $db->query('SELECT ' . $this->fields{'uid'} . ' FROM ' . $this->prefix . 'users');
+		$results = $db->query('SELECT ' . $this->fields['uid'] . ' FROM ' . $this->prefix . 'users');
 		while ($row = $db->fetch_row($results)) {
 			array_push($uidList, $row[0]);
 		}

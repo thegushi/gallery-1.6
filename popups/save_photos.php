@@ -204,7 +204,7 @@ if (!empty($urls) && ! empty($urls[0])) {
 		 * the URL in win32 style (ie, convert / to \, etc).
 		 */
 		$urlArray = array($url, "$url/");
-		if (!ereg("http", $url)) {
+		if (!preg_match('/http/', $url)) {
 			$urlArray[] = "http://$url";
 			$urlArray[] = "http://$url/";
 		}
@@ -272,7 +272,7 @@ if (!empty($urls) && ! empty($urls[0])) {
 			* This prevents a directory without a trailing / from being inadvertantly
 			* dropped from resulting URLs.
 			*/
-			if (ereg("/$", $url_stuff["path"]) || !ereg("\.", $name)) {
+			if (preg_match('#/$#', $url_stuff["path"]) || !preg_match('/\./', $name)) {
 				$base_dir = $url_stuff["path"];
 			}
 			else {
@@ -280,7 +280,7 @@ if (!empty($urls) && ! empty($urls[0])) {
 			}
 
 			/* Make sure base_dir ends in a / ( accounts for empty base_dir ) */
-			if (!ereg("/$", $base_dir)) {
+			if (!preg_match('#/$#', $base_dir)) {
 				$base_dir .= '/';
 			}
 
@@ -365,7 +365,7 @@ if(!empty($_FILES['metafile'])) {
 
 	// Find the key of the file name field
 	foreach (array_keys($exampleMetaData) as $currKey) {
-		if (eregi("^\"?file\ ?name\"?$", $currKey)) {
+		if (preg_match('/^"?file ?name"?$/i', $currKey)) {
 			$filenameKey = $currKey;
 		}
 	}

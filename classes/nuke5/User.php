@@ -29,18 +29,18 @@ class Nuke5_User extends Abstract_User {
 	var $prefix;
 	var $fields;
 	
-	function Nuke5_User() {
+	function __construct() {
 		global $gallery;
-		$this->db = $gallery->database{"nuke"};
-		$this->prefix = $gallery->database{"user_prefix"};
-		$this->fields = $gallery->database{'fields'};
+		$this->db = $gallery->database["nuke"];
+		$this->prefix = $gallery->database["user_prefix"];
+		$this->fields = $gallery->database['fields'];
 	}
 
 	function loadByUid($uid) {
-		$results = $this->db->query('select ' . $this->fields{'uname'} .
-		   ', ' . $this->fields{'name'} . ', ' . $this->fields{'email'} .
+		$results = $this->db->query('select ' . $this->fields['uname'] .
+		   ', ' . $this->fields['name'] . ', ' . $this->fields['email'] .
 		   ' from ' . $this->prefix . 'users '. 'where ' .
-		   $this->fields{'uid'} . "='$uid'");
+		   $this->fields['uid'] . "='$uid'");
 		$row = $this->db->fetch_row($results);
 		$this->username = $row[0];
 		$this->fullname = $row[1];
@@ -51,10 +51,10 @@ class Nuke5_User extends Abstract_User {
 	}
 
 	function loadByUserName($uname) {
-		$results = $this->db->query('select ' . $this->fields{'uid'} .
-		   ', ' . $this->fields{'name'} . ', ' . $this->fields{'email'} .
+		$results = $this->db->query('select ' . $this->fields['uid'] .
+		   ', ' . $this->fields['name'] . ', ' . $this->fields['email'] .
 		   ' from ' . $this->prefix . 'users ' . 'where ' .
-		   $this->fields{'uname'} . "='$uname'");
+		   $this->fields['uname'] . "='$uname'");
 		$row = $this->db->fetch_row($results);
 		$this->uid = $row[0];
 		$this->fullname = $row[1];

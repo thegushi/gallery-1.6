@@ -164,7 +164,7 @@
 <?PHP
 
 
-	$captcha =& new hn_captcha_X1($CAPTCHA_INIT);
+	$captcha = new hn_captcha_X1($CAPTCHA_INIT);
 
 
 

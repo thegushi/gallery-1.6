@@ -156,7 +156,7 @@
 
 <?PHP
 
-	$captcha =& new hn_captcha($CAPTCHA_INIT);
+	$captcha = new hn_captcha($CAPTCHA_INIT);
 
 	switch($captcha->validate_submit())
 	{

@@ -215,9 +215,9 @@ function updateBlacklist() {
 	$blacklist = loadBlacklist();
 	$dupes = array();
 	$added = array();
-	$newlines = split("[\n\r]+", getRequestVar('newBlacklistEntries'));
+	$newlines = preg_split('/[\n\r]+/', getRequestVar('newBlacklistEntries'));
 	foreach ($newlines as $line) {
-		$line = ereg_replace("#.*", "", $line);
+		$line = preg_replace('/#.*/', '', $line);
 		$line = trim($line);
 		if (empty($line)) {
 			continue;

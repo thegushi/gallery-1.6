@@ -39,7 +39,7 @@ class phpbb_User extends Abstract_User {
 
 	function phpbb_User() {
 		global $gallery, $userdata;
-		$this->db = $gallery->database{"phpbb"};
+		$this->db = $gallery->database["phpbb"];
 	}
 
 	function loadByUid($uid) {

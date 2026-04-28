@@ -27,7 +27,7 @@ if (! class_exists('Abstract_Database')) {
 class MySQL_Database extends Abstract_Database {
 	var $link;
 
-	function MySQL_Database($host, $uname, $pass, $dbname) {
+	function __construct($host, $uname, $pass, $dbname) {
 		$this->link = mysql_connect($host, $uname, $pass);
 		mysql_select_db($dbname, $this->link);
 	}

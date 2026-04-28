@@ -32,7 +32,7 @@ class Gallery_UserDB extends Abstract_UserDB {
 	var $version;
 	var $initialized;
 
-	function Gallery_UserDB() {
+	function __construct() {
 		global $gallery;
 
 		$this->initialized = false;
@@ -310,7 +310,7 @@ class Gallery_UserDB extends Abstract_UserDB {
 		$uidList = array();
 		if ($fd = fs_opendir($gallery->app->userDir)) {
 			while ($file = readdir($fd)) {
-				if (!ereg("^[0-9].*[0-9]$", $file)) {
+				if (!preg_match('/^[0-9].*[0-9]$/', $file)) {
 					continue;
 				}
 
@@ -322,7 +322,7 @@ class Gallery_UserDB extends Abstract_UserDB {
 
 				/* In v1.2 we renamed User to Gallery_User */
 				if (!strcmp(substr($tmp, 0, 10), 'O:4:"user"')) {
-					$tmp = ereg_replace('O:4:"user"', 'O:12:"gallery_user"', $tmp);
+					$tmp = preg_replace('/O:4:"user"/', 'O:12:"gallery_user"', $tmp);
 				}
 
 				$user = unserialize($tmp);
@@ -362,7 +362,7 @@ class Gallery_UserDB extends Abstract_UserDB {
 				$saveToDisplayUserName);
 		}
 
-		if (ereg("[^[:alnum:]]", $username)) {
+		if (preg_match('/[^[:alnum:]]/', $username)) {
 
 			return sprintf(gTranslate('core', "Illegal username '%s'. Only letters and digits allowed."),
 				$saveToDisplayUserName);

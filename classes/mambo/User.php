@@ -33,23 +33,23 @@ class Mambo_User extends Abstract_User {
 	var $fields;
 	var $gid;
 
-	function Mambo_User() {
+	function __construct() {
 		global $gallery;
 
-		$this->db = $gallery->database{'mambo'};
-		$this->prefix = $gallery->database{'user_prefix'};
-		$this->fields = $gallery->database{'fields'};
+		$this->db = $gallery->database['mambo'];
+		$this->prefix = $gallery->database['user_prefix'];
+		$this->fields = $gallery->database['fields'];
 		$this->gid = '';
 		$this->isAdmin = false;
 	}
 
 	function loadByUid($uid) {
-		$results = $this->db->query('SELECT ' . $this->fields{'uname'} . ', ' .
-												$this->fields{'name'} . ', ' .
-												$this->fields{'email'} . ', ' .
-												$this->fields{'gid'} .
+		$results = $this->db->query('SELECT ' . $this->fields['uname'] . ', ' .
+												$this->fields['name'] . ', ' .
+												$this->fields['email'] . ', ' .
+												$this->fields['gid'] .
 									' FROM ' . $this->prefix . 'users' .
-									' WHERE ' . $this->fields{'uid'} . "='$uid'");
+									' WHERE ' . $this->fields['uid'] . "='$uid'");
 
 		$row = $this->db->fetch_row($results);
 		$this->username = $row[0];
@@ -62,12 +62,12 @@ class Mambo_User extends Abstract_User {
 	}
 
 	function loadByUserName($uname) {
-		$results = $this->db->query('SELECT ' . $this->fields{'uid'} . ', ' .
-												$this->fields{'name'} . ', ' .
-												$this->fields{'email'} . ', ' .
-												$this->fields{'gid'} .
+		$results = $this->db->query('SELECT ' . $this->fields['uid'] . ', ' .
+												$this->fields['name'] . ', ' .
+												$this->fields['email'] . ', ' .
+												$this->fields['gid'] .
 									' FROM ' . $this->prefix . 'users' .
-									' WHERE ' . $this->fields{'uname'} . "='$uname'");
+									' WHERE ' . $this->fields['uname'] . "='$uname'");
 
 		$row = $this->db->fetch_row($results);
 		$this->uid = $row[0];

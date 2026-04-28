@@ -28,7 +28,7 @@ class PostNuke_UserDB extends Abstract_UserDB {
 	var $db;
 	var $prefix;
 
-	function PostNuke_UserDB() {
+	function __construct() {
 		$this->nobody = new NobodyUser();
 		$this->everybody = new EverybodyUser();
 		$this->loggedIn = new LoggedInUser();

@@ -27,7 +27,7 @@ if (! class_exists('Abstract_UserDB')) {
 class Geeklog_UserDB extends Abstract_UserDB {
 	var $db;
 
-	function Geeklog_UserDB() {
+	function __construct() {
 		global $gallery;
 
 		$this->nobody = new NobodyUser();

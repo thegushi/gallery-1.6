@@ -363,7 +363,7 @@ if (empty($useCache)) {
 
 	if ($type == "random" ) {
 		// Seed the random number generator.
-		srand((double)microtime()*1000000);
+		mt_srand();
 	}
 
 	for ($i = 0; $i<$numAlbums; $i++) {

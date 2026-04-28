@@ -195,7 +195,7 @@ require(dirname(__FILE__) . '/includes/comments/commentHandling.inc.php');
 $metaTags = array();
 $keyWords = $gallery->album->getKeywords($index);
 if (!empty($keyWords)) {
-	$metaTags['Keywords'] = ereg_replace("[[:space:]]+",' ',$keyWords);
+	$metaTags['Keywords'] = preg_replace('/[[:space:]]+/', ' ', $keyWords);
 }
 
 /* prefetch/navigation */
@@ -225,7 +225,7 @@ if (!$gallery->album->isMovie($id)) {
 		$photo = $gallery->album->getPhoto($GLOBALS["index"]);
 		$photoPath = $gallery->album->getAlbumDirURL("full");
 		$prependURL = '';
-		if (!ereg('^https?://', $photoPath)) {
+		if (!preg_match('#^https?://#', $photoPath)) {
 			$prependURL = 'http';
 			if (isset($_SERVER['HTTPS']) && stristr($_SERVER['HTTPS'], "on")) {
 				$prependURL .= 's';
@@ -464,7 +464,7 @@ else {
 }
 
 $frame = $gallery->album->fields['image_frame'];
-if ($fitToWindow && (eregi('safari|opera', $_SERVER['HTTP_USER_AGENT']) || $gallery->session->offline)) {
+if ($fitToWindow && (preg_match('/safari|opera/i', $_SERVER['HTTP_USER_AGENT']) || $gallery->session->offline)) {
 	//Safari/Opera can't render dynamically sized image frame
 	$frame = 'none';
 }

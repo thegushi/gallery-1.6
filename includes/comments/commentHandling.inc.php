@@ -38,7 +38,7 @@ if($gallery->user->canAddComments($gallery->album)) {
 		 */
 		require(dirname(dirname(dirname(__FILE__))) . '/classes/hn_captcha/hn_captcha.class.x1.php');
 		require(dirname(dirname(__FILE__)) . '/captcha/captcha_init.php');
-		$captcha =& new hn_captcha_X1($CAPTCHA_INIT);
+		$captcha = new hn_captcha_X1($CAPTCHA_INIT);
 	}
 
 	if ($gallery->user->isLoggedIn() ) {

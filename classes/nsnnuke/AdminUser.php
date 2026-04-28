@@ -28,14 +28,14 @@ class CPGNuke_AdminUser extends Abstract_User {
 	var $db;
 	var $prefix;
 
-	function CPGNuke_AdminUser($admin) {
+	function __construct() {
 		global $gallery;
 		global $CLASS;
 		
 		$admin_info = $CLASS['member']->admin;
 
-		$this->db = $gallery->database{"cpgnuke"};
-		$this->prefix = $gallery->database{"prefix"};
+		$this->db = $gallery->database["cpgnuke"];
+		$this->prefix = $gallery->database["prefix"];
 
 		$this->username = $admin_info['aid'];
 		$this->fullname = $admin_info['aid'];

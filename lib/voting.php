@@ -42,7 +42,7 @@ function arrayToBarGraph ($array, $max_width) {
 	$string_to_return = "\n  <table>";
 
 	if ($max_value > 0) {
-		$pixels_per_value = ((double) $max_width) / $max_value;
+		$pixels_per_value = ((float) $max_width) / $max_value;
 	}
 	else {
 		$pixels_per_value = 0;
@@ -266,7 +266,7 @@ function showResultsGraph($num_rows) {
 				$summary = gTranslate('common', "(Total points in brackets)");
 			}
 			else {
-				$results[$element] = number_format(((double)$accum_votes)/$count, 2);
+				$results[$element] = number_format(((float)$accum_votes)/$count, 2);
 				$summary = gTranslate('common', "(Average points in brackets)");
 			}
 		}

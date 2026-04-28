@@ -30,7 +30,7 @@
 class Properties {
 	var $map;
 	
-	function Properties( $defaults = null ) {
+	function __construct( $defaults = null ) {
 		$this->map = $defaults;
 	}
 

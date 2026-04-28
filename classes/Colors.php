@@ -41,7 +41,7 @@ class RGBColor {
 	var $hex;
 	var $brightness;
 
-	function RGBColor($color_string) {
+	function __construct($color_string) {
 
 		$this->ok = false;
 

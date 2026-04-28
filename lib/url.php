@@ -134,7 +134,7 @@ function makeGalleryUrl($target = '', $args = array()) {
 	}
 
 	/* make sure the urlprefix doesnt end with a / */
-	$urlprefix = ereg_replace("\/$", "", $urlprefix);
+	$urlprefix = preg_replace('#/$#', '', $urlprefix);
 
 	/* Add the folder to the url when *Nuke is not direct in the main folder */
 	$addpath = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
@@ -427,7 +427,7 @@ function urlIsRelative($url) {
  * @author Jens Tkotz
  */
 function pathIsAbsolute($path) {
-	if($path{0} == '/' && $path{1} != '/') {
+	if($path[0] == '/' && $path[1] != '/') {
 		return true;
 	}
 	else {

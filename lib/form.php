@@ -246,7 +246,7 @@ function makeFormIntro($target, $attrList = array(), $urlargs = array()) {
 		$url = unhtmlentities($target);
 	}
 
-	$result = split("\?", $url);
+	$result = preg_split('/\?/', $url);
 	$target = $result[0];
 	$tmp = (sizeof($result) > 1) ? $result[1] :'';
 
@@ -265,14 +265,14 @@ function makeFormIntro($target, $attrList = array(), $urlargs = array()) {
 
 	$form = "\n<form action=\"$target\"$attrs>\n";
 
-	$args = split("&", $tmp);
+	$args = preg_split('/&/', $tmp);
 	foreach ($args as $arg) {
 		if (strlen($arg) == 0) {
 			continue;
 		}
-		list($key, $val) = split("=", $arg);
+		list($key, $val) = preg_split('/=/', $arg);
 		if(in_array($key, $usedIDs)) {
-			$id = "${key}_${idCounter}";
+			$id = "{$key}_{$idCounter}";
 			$idCounter++;
 		}
 		else {
@@ -346,7 +346,7 @@ function showColorpicker($attrs = array(), $addCallBack = false, $updatePreview 
 	$html .= "\n<tr><td>$label </td>";
 	$html .= gInput('text', $name,'','cell', $attrs['value'], array('size' => 8, 'maxlength' => 7));
 	$html .= "\n\t<td id=\"mooDestination_$id\" width=\"20\" style=\"background-color: {$attrs['value'] }\"></td>";
-	$html .= "\n\t<td id=\"colorpicker_$id\">${imgColorpicker}</td>";
+	$html .= "\n\t<td id=\"colorpicker_$id\">{$imgColorpicker}</td>";
 	$html .= "\n</tr></table>\n";
 
 	return $html;
@@ -363,11 +363,11 @@ function showByteCalculator($id, $initValue = 0, $positionBelow = false, $change
 
 	}
 
-	$html = gInput($type, "${id}_niceBytes", null, false, $value, array('readonly' => 'readonly', 'id' => "${id}_niceBytes"));
+	$html = gInput($type, "{$id}_niceBytes", null, false, $value, array('readonly' => 'readonly', 'id' => "{$id}_niceBytes"));
 
 	if($changeable) {
 		$html .= "\n<a onClick=\"showByteCalculator('$id');\">";
-		$html .= gImage('icons/calc.png', '',  array('id' => "${id}_byteCalcIcon"));
+		$html .= gImage('icons/calc.png', '',  array('id' => "{$id}_byteCalcIcon"));
 		$html .= "</a>\n";
 
 		$units = array(
@@ -378,11 +378,11 @@ function showByteCalculator($id, $initValue = 0, $positionBelow = false, $change
 		);
 
 		$html .= ($positionBelow) ? '<br>&nbsp;' : '';
-		$html .= "<fieldset id=\"${id}_byteCalcBox\" style=\"position: absolute; display: none; border: 1px solid black; width:215px; background: #fff;\">";
+		$html .= "<fieldset id=\"{$id}_byteCalcBox\" style=\"position: absolute; display: none; border: 1px solid black; width:215px; background: #fff;\">";
 		$html .= "\n<legend>". gTranslate('common', "Byte calculator") . '</legend>';
 		$html .= "\n<div>";
-		$html .= "\n<input id=\"${id}_mixedSize\" onkeyup=\"update('$id')\" value=\"$initValue\"> ";
-		$html .= drawSelect("${id}_unit", $units, '', 1, array('onchange' => "update('$id')", 'id' => "${id}_unit"));
+		$html .= "\n<input id=\"{$id}_mixedSize\" onkeyup=\"update('$id')\" value=\"$initValue\"> ";
+		$html .= drawSelect("{$id}_unit", $units, '', 1, array('onchange' => "update('$id')", 'id' => "{$id}_unit"));
 		$html .= "\n</div>";
 		$html .= "<div style=\"width:100%; text-align: right; margin-top: 2px;\">";
 		$html .= galleryLink('#', gTranslate('core', "_Close"), array('onclick' => "closeByteCalculator('$id')"));
@@ -614,11 +614,11 @@ function gInput($type, $name, $label = null, $tableElement = false, $value = nul
 	}
 
 	if($multiInput) {
-		$html .= gButton('addField', gTranslate('common', "Add field"), "${id}obj.newField()");
-		$html .= "\n<div id=\"${id}_multiInputContainer\"></div>\n\n";
+		$html .= gButton('addField', gTranslate('common', "Add field"), "{$id}obj.newField()");
+		$html .= "\n<div id=\"{$id}_multiInputContainer\"></div>\n\n";
 
 		$html .= '<script language="JavaScript" type="text/javascript">';
-		$html .= "\n\tvar ${id}obj = new MultiInput('$id', '${id}_multiInputContainer')";
+		$html .= "\n\tvar {$id}obj = new MultiInput('$id', '{$id}_multiInputContainer')";
 		$html .= "\n</script>\n";
 	}
 

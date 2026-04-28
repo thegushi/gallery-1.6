@@ -27,7 +27,7 @@ class Comment {
 	var $name;		// name or email of person who entered comment
 	var $UID;		// UID of person who entered comment
 
-	function Comment($commentText, $IPNumber, $name, $UID="") {
+	function __construct($commentText, $IPNumber, $name, $UID="") {
 
 		$this->commentText = substr(wordwrap($commentText, 100, " ", 1), 0, 1000);
 		$this->datePosted = time();

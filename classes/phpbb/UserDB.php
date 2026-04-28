@@ -39,7 +39,7 @@ class phpbb_UserDB extends Abstract_UserDB {
 
 	function phpbb_UserDB() {
 		global $gallery;
-		$this->db = $gallery->database{"phpbb"};
+		$this->db = $gallery->database["phpbb"];
 		$this->nobody = new NobodyUser();
 		$this->everybody = new EverybodyUser();
 		$this->loggedIn = new LoggedInUser();

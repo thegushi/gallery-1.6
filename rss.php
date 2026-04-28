@@ -101,7 +101,7 @@ function makeDCDate($unixDate) {
 	 * half-our time offsets
 	 */
 
-	return eregi_replace("..$", ":00", $dcDate);
+	return preg_replace('/..$/', ':00', $dcDate);
 }
 
 /* Read the album list */
@@ -294,7 +294,7 @@ echo '<' . '?xml version="1.0" encoding="' . $gallery->locale . '"?' . '>';
 		<link><?php echo $gallery->app->photoAlbumURL ?></link>
 		<description><?php echo htmlspecialchars($description) ?></description>
 <?php if (isset($gallery->app->default_language)) { ?>
-		<language><?php echo ereg_replace("_", "-", $gallery->app->default_language) ?></language>
+		<language><?php echo preg_replace('/_/', '-', $gallery->app->default_language) ?></language>
 <?php } ?>
 		<lastBuildDate><?php echo date("r"); ?></lastBuildDate>
 <?php if (isset($gallery->app->adminEmail)) { ?>
@@ -339,7 +339,7 @@ foreach($albumList as $album) {
 	foreach($album as $tag => $info) {
 		# meta fields that should not be printed in the feed
 		# start with bang.
-		if (ereg("^!", $tag)) {
+		if (preg_match('/^!/', $tag)) {
 			continue;
 		}
 
