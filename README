@@ -1,0 +1,24 @@
+$Id: README 17874 2008-08-19 13:19:41Z JensT $
+
+You can view the most up-to-date docs directly on the Gallery website:
+
+        http://gallery.sf.net/docs.php
+        
+In these docs, you can also add user notes to the docs, to expand on
+the documentation.  If you find an error or think a section of the
+docs needs clarification, you can add a note.
+
+**IMPORTANT NOTE**
+
+You should check the Gallery website often for notices of new Gallery
+versions and security updates.  We *highly* recommend subscribing to
+the gallery-announce mailing list.  This is extremely low-traffic, but
+will provide you with announcements of new Gallery versions.  You can
+subscribe at this URL:
+
+        http://lists.sourceforge.net/lists/listinfo/gallery-announce
+        
+See all the available mailing lists here: 
+
+        http://gallery.sf.net/lists.php
+

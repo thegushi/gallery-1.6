@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Gallery SVN ID:
+ * $Id: style.def 14282 2006-08-12 00:46:01Z jenst $
+*/
+
+$name=_("Bred");
+$description=_("White with grey pipes and pink highlight");
+$version='1.0.4';
+$last_update='2005-02-21';
+?>

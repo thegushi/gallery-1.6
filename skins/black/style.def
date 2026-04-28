@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Gallery SVN ID:
+ * $Id: style.def 17860 2008-08-17 13:50:28Z JensT $
+*/
+
+$name = _("Black");
+$description = _("Black with grey pipes");
+$version = '2.0.3';
+$last_update = '2008-08-17';
+?>

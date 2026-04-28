@@ -1,0 +1,298 @@
+<?php
+/*
+ * Gallery - a web based photo album viewer and editor
+ * Copyright (C) 2000-2008 Bharat Mediratta
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * $Id: albums.tpl.default 13820 2006-06-14 12:03:36Z jenst $
+ */
+
+if(! defined('READY_TO_INCLUDE') || READY_TO_INCLUDE  !== 'DISCO') {
+	echo 'Security violation while including template for startpage.';
+	exit;
+}
+
+/** Display settings **/
+
+// Show created / last change date
+$showCreationDate = true;
+
+// Show number of items
+$numItems = true;
+
+/** End of Settings **/
+
+
+if ($gallery->app->theme == 'classic_sidebar' && $gallery->app->useIcons == 'both') {
+	$useIcons = 'yes';
+}
+else {
+	$useIcons = $gallery->app->useIcons;
+}
+
+$cells = 2;
+
+if (!$GALLERY_EMBEDDED_INSIDE) {
+	doctype();
+?>
+<html>
+<head>
+  <title><?php echo $galleryTitle; ?></title>
+  <?php
+	common_header();
+
+	prefetchRootAlbumNav();
+
+	rootRSSLink();
+	if (isset($dynsubalbumTree)) {
+		echo _getStyleSheetLink('yui-tree');
+	}
+
+	echo _getStyleSheetLink('sidebar');
+?>
+</head>
+<body>
+<?php
+}
+includeTemplate("gallery.header", '', 'classic');
+
+includeTemplate('headerbox.footer');
+
+if ($GALLERY_EMBEDDED_INSIDE) {
+	echo _getStyleSheetLink('sidebar');
+}
+
+// Todo: Add Javascript as late as possible.
+// See http://developer.yahoo.com/performance/rules.html#js_bottom
+
+if (isset($dynsubalbumTree)) {
+	if ($GALLERY_EMBEDDED_INSIDE) {
+		echo _getStyleSheetLink('yui-tree');
+	}
+
+	echo jsHTML('yui/yahoo-dom-event.js');
+	echo jsHTML('yui/treeview-min.js');
+}
+?>
+
+<table width="100%">
+<tr>
+	<td id="g-sidebar" class="g-sidebar">
+	<div style="width:100%" class="right">
+	<?php echo galleryIconLink('#', 'application_side_expand.png', gTranslate('core', "Open sidebar"), $useIcons, array('id' => 'g-sidebar-icon1', 'onClick' => 'g_sidebar.toggle()')); ?>
+	<?php echo galleryIconLink('#', 'application_side_contract.png', gTranslate('core', "Close sidebar"), $useIcons, array('id' => 'g-sidebar-icon2', 'onClick' => 'g_sidebar.toggle()', 'class' => 'hidden')); ?>
+	</div>
+	<div id="g-sidebar-content">
+		<?php if($gallery->app->useIcons != 'yes') : ?>
+		<div class="g-sidebarHeader"><?php echo gTranslate('core', "Actions"); ?></div>
+		<?php endif ?>
+<?php
+	foreach($iconElements as $command) {
+		echo "\n\t\t<div class=\"nowrap g-adminbarcommands\">$command</div>";
+	}
+?>
+	</div>
+	</td>
+	<td id="g-content" class="1g-content 1floatleft g-borderleftsolid">
+	        <div class="g-headerbox">
+		    <?php echo $searchBar; ?>
+	        </div>
+		<div class="g-adminbar">
+		  <table width="100%">
+		  <tr>
+		      <td class="g-adminbartext left"><?php echo $adminText ?></td>
+		      <td class="g-adminbarheader right"><?php echo $gallery_welcome ?></td>
+		    </tr>
+		  </table>
+		</div>
+
+<?php
+
+echo jsHTML('sidebar.js');
+
+if ($navigator["maxPages"] > 1) {
+	echo '<div class="g-navbar-top">';
+	includeLayout('navigator.inc');
+	echo '</div>';
+}
+
+echo languageSelector();
+
+echo infoBox($notice_messages, $notice_caption);
+?>
+
+<!-- album table begin -->
+<table cellpadding="0" cellspacing="0" class="g-albums-table">
+<?php
+	foreach ($rootAlbum as $name => $content) {
+		$adminAlbumCommandsArray =  $content['albumdesc']['adminRootAlbumCommands'];
+		$adminAlbumCommands = '';
+
+		if(!empty($adminAlbumCommandsArray)) {
+			foreach ($adminAlbumCommandsArray as $trash => $command ) {
+				$adminAlbumCommands .= $command['html'];
+			}
+		}
+	?>
+	<!-- Begin Album Column Block -->
+	<tr>
+		<!-- Begin Image Cell -->
+		<td class="g-album-image-cell"><?php
+			$gallery->html_wrap = $content['imageCell'];
+			includeLayout('inline_imagewrap.inc');
+			?>
+		</td>
+		<!-- Begin Text Cell -->
+		<td class="g-albumdesc-cell left">
+		   <table cellspacing="0" cellpadding="0" width="100%">
+			  <tr>
+				 <td class="g-title-left"></td>
+				 <td class="g-title g-title-background">
+				   <?php echo $content['albumdesc']['title']; ?>
+				 </td>
+				 <td class="g-title-right"></td>
+			  </tr>
+		  </table>
+
+<?php if(!empty($adminAlbumCommands)) : ?>
+    		<!-- Begin adminAlbumCommands -->
+    		<div class="g-admin">
+    		<?php echo $adminAlbumCommands; ?>
+    		</div>
+    		<!-- End adminAlbumCommands -->
+			<?php else : ?>
+			<!-- <?php echo gTranslate('core', "No admin commands available."); ?> -->
+<?php endif ?>
+
+<br>
+<?php if (!empty($content['albumdesc']['description'])) :?>
+			<div class="g-album-desc"><?php echo $content['albumdesc']['description'] ?></div>
+<?php endif ?>
+
+<?php if (!empty($content['albumdesc']['owner'])) :?>
+			<div class="g-album-owner"><?php echo $content['albumdesc']['owner'] ?></div>
+<?php endif ?>
+
+			<div class="g-album-infos">
+<?php if (!empty($content['albumdesc']['url'])) : ?>
+				<?php echo $content['albumdesc']['url']; ?>
+				<br>
+<?php endif ?>
+<?php if ($showCreationDate) : ?>
+				<?php echo $content['albumdesc']['changeDate'] ?>
+				<br>
+<?php endif ?>
+<?php if ($numItems) : ?>
+				<?php echo $content['albumdesc']['numItems'] ?>
+				<br>
+<?php endif ?>
+<?php if (!empty($content['albumdesc']['clickCounter'])) :?>
+				<?php echo $content['albumdesc']['clickCounter'] ?>
+<?php endif ?>
+
+<?php if (!empty($content['albumdesc']['commentIndication'])) :?>
+				<?php echo $content['albumdesc']['commentIndication'] ?>
+<?php endif ?>
+
+<?php if (!empty($content['albumdesc']['microthumbs'])) :?>
+			  <div class="g-microthumbsTree-box"><?php echo $content['albumdesc']['microthumbs'] ?></div>
+<?php endif ?>
+			</div>
+		</td>
+		<!-- End Text Cell -->
+
+<?php if (!empty($content['subalbumTree']) || isset($dynsubalbumTree) ) { $cells = 3; ?>
+	<?php if (!empty($content['subalbumTree'])) : ?>
+		<!-- Subalbumtree -->
+		<td class="g-subalbumTree-box"><?php echo $content['albumdesc']['subalbumTree'] ?></td>
+	<?php else : ?>
+		<td class="g-subalbumTree-box"></td>
+	<?php endif ?>
+<?php } ?>
+	</tr>
+	<tr><td class="g-album-vertical-spacer" colspan="<?php echo $cells; ?>"></td></tr>
+
+<?php
+	}
+?>
+</table>
+<!-- album table end -->
+
+<?php if ($displayCommentLegend) :?>
+<p><span class="g-commentIndication">*</span>
+   <span class="g-small"><?php echo gTranslate('core', "Comments available for this item.") ;?></span>
+</p>
+<?php endif ?>
+
+<?php
+if ($navigator['maxPages'] > 1) {
+	echo '<div class="g-navbar-bottom">';
+	includeLayout('navigator.inc');
+	echo '</div>';
+}
+?>
+<!-- end content -->
+	</td>
+</tr>
+</table>
+<div class="clear"></div>
+
+<p>
+<!-- gallery.footer begin -->
+<?php
+
+require_once(GALLERY_BASE .'/templates/info_donation-block.tpl.default');
+
+includeTemplate("overall.footer");
+
+if (!$gallery->session->offline) { ?>
+
+  <script type="text/javascript">
+
+    var statusWin;
+    function showProgress() {
+        statusWin = <?php echo popup_status("progress_uploading.php"); ?>
+    }
+
+    function hideProgress() {
+        if (typeof(statusWin) != "undefined") {
+            statusWin.close();
+            statusWin = void(0);
+        }
+    }
+
+    function hideProgressAndReload() {
+        hideProgress();
+        location.reload();
+    }
+
+    function chooseOnlyOne(i, form_pos, scale) {
+        for(var j = 0; j < scale; j++) {
+            if(j != i) {
+                eval("document.vote_form['votes["+j+"]']["+form_pos+"].checked=false");
+            }
+        }
+    }
+  </script>
+<?php
+}
+
+if (!$GALLERY_EMBEDDED_INSIDE) { ?>
+</body>
+</html>
+<?php
+}
+?>

@@ -1,0 +1,78 @@
+/* This stylesheet is only loaded in languages that are read from left to right.
+
+   If you would like to customize the styles please create
+   copy of this file called
+
+     "ltr.css" (same name without ".default")
+
+   If that file is found in this directory it will be
+   used instead of this one.
+
+   $Id: ltr.css.default 17860 2008-08-17 13:50:28Z JensT $
+*/
+
+body {
+    direction: ltr;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right;
+}
+
+.g-config-content {
+    width: 630px;
+    border-left: 1px solid #cccccc;
+    padding-left: 10px;
+    float: right;
+}
+
+.right5 {
+    margin-right: 5px;
+}
+
+.g-tabset a {
+    float: left;
+}
+
+.g-borderright {
+     border-right: 1px dashed;
+}
+
+.g-borderleft {
+    border-left: 1px dashed;
+}
+
+.g-borderrightsolid {
+     border-right: 1px solid;
+}
+
+.g-borderleftsolid {
+    border-left: 1px solid;
+}
+
+.g-usernameInput, .g-usernameInput:focus {
+	background: url('../images/icons/user_gray.gif') no-repeat left top;
+	padding-left: 20px;
+}
+
+.g-passwordInput, .g-passwordInput:focus {
+	background: url('../images/icons/key.gif') no-repeat left top;
+	padding-left: 20px;
+}
+
+.g-locked {
+	text-decoration: line-through;
+	background: url('../images/icons/locked.gif') no-repeat right center;
+}

@@ -1,0 +1,12 @@
+/* Gallery SVN ID:
+ * $Id: README 17858 2008-08-16 22:33:57Z JensT $
+*/
+
+
+Problem: 
+In phpnuke 7.0 and later (at least up to 7.2) the popups look ugly,
+because the complete phpnuke is loaded also.
+
+Reason: Changes in phpnukes modules.php
+
+Solution: Use Patch or MOD file to modify modules.php
