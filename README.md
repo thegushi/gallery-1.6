@@ -32,6 +32,30 @@ Gallery 1.6 was written for PHP 4/5 circa 2001–2008. Sixteen-plus years of PHP
 
 ---
 
+## Runtime fixes (found during actual deployment)
+
+`php -l` catches syntax errors but not runtime behavior. Deploying against a real gallery with real data surfaced a second wave of issues, fixed in subsequent commits.
+
+| Issue | Fix |
+|---|---|
+| `$gallery` is a bare `stdClass` before `Version.php` assigns properties to it — PHP 8 fatal on null object | Initialize `$gallery = new stdClass()` before the `require` in `init.php` |
+| `$op` / `$mop` (CMS embed vars) undefined in standalone use — PHP 8 warns, `strcmp()` gets null | Use `?? ''` null-coalescing in `index.php` |
+| `parent::ClassName()` — old PHP 4 explicit parent constructor call style | `parent::__construct()` in `XML_HTMLSax3_StateParser` subclasses and `Gallery_User` |
+| `GallerySession`, `Album`, `AlbumDB` dynamic property deprecations (PHP 8.2) | Declare all runtime-assigned properties explicitly on each class |
+| `Album::$transient` wiped by `loadFromFile()` copying old `.dat` file properties | Reinitialize `$this->transient = new stdClass()` after the property-copy loop |
+| `get_class(false)` — PHP 8 fatal when `unserialize()` fails and returns `false` | Guard with `is_object()` before `get_class()` in `loadFromFile()` / `loadPhotosFromFile()` |
+| `sizeof($this->comments)` — PHP 8 fatal when `comments` is null in old album data | `sizeof($this->comments ?? [])` |
+| `urlencode(null)` — PHP 8.1 deprecation when image `name`/`resizedName` is null | `?? ''` guard in `Image.php` |
+| `strftime()` — deprecated PHP 8.1, used in ~30 places across the codebase | Added `gallery_strftime()` shim in `util.php` that translates strftime format specifiers to `date()` equivalents; replaced all call sites |
+| `${var}` interpolation missed in `layout/navigator.inc` and `layout/inline_imagewrap.inc` | `{$var}` |
+| `HTML_Safe::parse()` accumulates `_xhtml` and `_stack` across calls — `sanitizeInput()` reuses a static instance, and `formVar()` calls `getRequestVar()` twice, so `set_albumListPage=1` became `'111...'`, always > `$maxPages`, always clamped to last page | Reset `_xhtml` and `_stack` at the top of `parse()` |
+| Album list page navigation broken for unauthenticated visitors — static `cache.html` was served regardless of `set_albumListPage` query param | Bypass cache when a page-navigation parameter is present |
+| `$gallery->language` read before `initLanguage()` runs | Seed `$gallery->language = 'en_US'` on the initial `stdClass` |
+
+The "What is NOT fixed" section below still applies. These runtime fixes only address what came up navigating a real gallery as an unauthenticated visitor.
+
+---
+
 ## What is NOT fixed
 
 - **`mysql_*` functions** — the MySQL database driver (`classes/database/mysql/`) still uses the long-removed `mysql_connect()` etc. This code path only runs when Gallery is embedded inside old PHP-Nuke/PostNuke/Joomla/Mambo CMS installations. For standalone flat-file use (the point of this exercise) it is never loaded.
