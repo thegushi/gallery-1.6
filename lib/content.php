@@ -1421,7 +1421,7 @@ function makeAccessKeyString($text) {
  */
 function getAndSetAccessKey(& $text) {
 	$accesskey = false;
-	$pos = strpos($text, '_');
+	$pos = strpos($text ?? '', '_');
 
 	if ($pos !== false) {
 		$accesskey = substr($text,$pos+1,1);

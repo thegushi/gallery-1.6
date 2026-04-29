@@ -71,16 +71,6 @@ printPopupStart(gTranslate('core', "Add items"), '', 'left');
   </script>
 <?php
 
-if (file_exists(dirname(dirname(__FILE__)) . '/java/GalleryRemoteAppletMini.jar') &&
-	file_exists(dirname(dirname(__FILE__)) . '/java/GalleryRemoteHTTPClient.jar'))
-{
-	$modes['applet_mini'] = gTranslate('core', "Applet");
-
-	if (file_exists(dirname(dirname(__FILE__)) . '/java/GalleryRemoteApplet.jar')) {
-		$modes['applet'] = gTranslate('core', "Applet (big)");
-	}
-}
-
 $modes['form']	= gTranslate('core', "Form");
 $modes['url']	= gTranslate('core', "URL");
 $modes['local']	= gTranslate('core', "From Local Server");
