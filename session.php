@@ -30,7 +30,25 @@ if(!defined('LOAD_SESSIONS')) {
  * stdClass instance correctly.  So create a dummy class to hold all
  * of our session data.
  */
-class GallerySession {}
+class GallerySession {
+    public $version;
+    public $sessionStart;
+    public $remoteHost;
+    public $offlineAlbums;
+    public $albumListPage;
+    public $albumName;
+    public $albumPage;
+    public $configForm;
+    public $fullOnly;
+    public $gRedirDone;
+    public $language;
+    public $mambo;
+    public $offline;
+    public $resetAdminGuid;
+    public $username;
+    public $viewedAlbum;
+    public $viewedItem;
+}
 
 /*
  * Turn on cookie support, if possible.  Don't complain on errors, in case
