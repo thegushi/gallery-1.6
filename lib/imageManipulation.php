@@ -595,7 +595,7 @@ function cut_image($src, $dest, $offsetX, $offsetY, $width, $height) {
 		break;
 
 		case "ImageMagick":
-			if (floor(getImVersion()) < 6) {
+			if (((int)getImVersion()) < 6) {
 				$repage = "-page +0+0";
 			}
 			else {
@@ -779,7 +779,7 @@ function ImCmd($cmd, $srcOperator, $src, $destOperator, $dest) {
 	static $ImVersion;
 
 	if(empty($ImVersion)) {
-		$ImVersion = floor(getImVersion());
+		$ImVersion = ((int)getImVersion());
 	}
 	$cmd = fs_import_filename($gallery->app->ImPath . "/$cmd");
 
@@ -808,7 +808,7 @@ function compressImage($src = '', $dest = '', $targetSize = 0, $quality = 75, $k
 	$stripProfiles = '';
 
 	if(empty($ImVersion)) {
-		$ImVersion = floor(getImVersion());
+		$ImVersion = ((int)getImVersion());
 	}
 
 	if ($targetSize === 'off') {
