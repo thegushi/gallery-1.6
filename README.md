@@ -74,6 +74,16 @@ A third wave surfaced when exercising admin features: album viewing, photo uploa
 | Shutterfly print service link — API dead since ~2010 | Remove from `view_photo.php` print services list |
 | `HTML_Safe::parse()` / `sanitizeInput()` null input — PHP 8.1 deprecation on `preg_replace(null)` | Coerce `$doc` to string at top of `parse()` |
 
+## Enhancements beyond the original
+
+Small quality-of-life additions that made sense while everything was open.
+
+| Change | Detail |
+|---|---|
+| WebP support | Added `webp` to `acceptableImageList()` in `lib/filetypes.php`. Requires ImageMagick with libwebp (confirmed working with libwebp 1.6.0). Originals are stored as WebP; thumbnails are output as JPEG as usual. |
+| Java applet upload and slideshow modes removed | Applets have been dead in all browsers since ~2017. The UI options are gone; the underlying `.inc` files remain but are unreachable. |
+| Shutterfly print service removed | API has been dead for years. Removed from the photo actions menu. |
+
 The "What is NOT fixed" section below still applies. The gallery is now fully functional for viewing, navigating, and uploading photos as a logged-in admin and as an unauthenticated visitor.
 
 ---
