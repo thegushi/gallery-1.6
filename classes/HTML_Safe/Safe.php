@@ -596,6 +596,7 @@ class HTML_Safe
      */
     function parse($doc)
     {
+       $doc = (string)($doc ?? '');
 
        // Save all '<' symbols
        $doc = preg_replace("/<(?=[^a-zA-Z\/\!\?\%])/", '&lt;', $doc);
