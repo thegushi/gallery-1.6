@@ -24,6 +24,8 @@ class AlbumDB {
 	var $albumList;
 	var $albumOrder;
 	var $initialized;
+	var $brokenAlbums;
+	var $outOfDateAlbums;
 
 	function __construct($loadphotos = true) {
 		global $gallery;

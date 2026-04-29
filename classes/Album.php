@@ -26,6 +26,8 @@ class Album {
 	var $dir;
 	var $version;
 	var $tsilb = "TSILB";
+	var $transient;
+	var $updateSerial;
 
 	/*
 	 * transient
@@ -60,7 +62,7 @@ class Album {
 		$this->fields['rows']			= $gallery->app->default['rows'];
 		$this->fields['cols']			= $gallery->app->default['cols'];
 		$this->fields['fit_to_window']		= $gallery->app->default['fit_to_window'];
-		$this->fields['lightbox']		= $gallery->app->default['lightbox'];
+		$this->fields['lightbox']		= $gallery->app->default['lightbox'] ?? '';
 		$this->fields['use_fullOnly']		= $gallery->app->default['use_fullOnly'];
 		$this->fields['print_photos']		= isset($gallery->app->default['print_photos']) ? $gallery->app->default['print_photos'] : '';
 		$this->fields['use_exif']		= isset($gallery->app->use_exif) ? 'yes' : 'no';
@@ -78,7 +80,7 @@ class Album {
 		$this->fields['thumb_frame']		= $gallery->app->default['thumb_frame'];
 		$this->fields['image_frame']		= $gallery->app->default['image_frame'];
 		$this->fields['showDimensions']		= $gallery->app->default['showDimensions'];
-		$this->fields['dimensionsAsPopup']	= $gallery->app->default['dimensionsAsPopup'];
+		$this->fields['dimensionsAsPopup']	= $gallery->app->default['dimensionsAsPopup'] ?? '';
 		$this->fields['email_me']		= array();
 		$this->fields['ecards']			= $gallery->app->default['ecards'];
 		$this->fields['highlightIndex']		= 1;
