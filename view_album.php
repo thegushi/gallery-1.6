@@ -412,7 +412,7 @@ if ($numPhotos) {
 
 			/* Caption for Photo or Movie, Caption for album is done below */
 			if (!isset($myAlbum)) {
-				$caption = nl2br($photo->getCaption());
+				$caption = nl2br($photo->getCaption() ?? '');
 
 				$albumItems[$nr]['caption'] = $caption;
 				$albumItems[$nr]['caption'] .= $gallery->album->getCaptionName($i) . ' ';

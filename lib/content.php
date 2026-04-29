@@ -64,7 +64,7 @@ function editField($album, $field, $url = null) {
 function editCaption($album, $index) {
 	global $gallery;
 
-	$html  = nl2br($album->getCaption($index));
+	$html  = nl2br($album->getCaption($index) ?? '');
 
 	if (($gallery->user->canChangeTextOfAlbum($album) ||
 	  ($gallery->album->getItemOwnerModify() &&

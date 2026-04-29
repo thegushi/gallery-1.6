@@ -152,7 +152,7 @@ if(isset($imageMapHTML)) {
   echo $imageMapHTML;
 }
 
-$description = nl2br($gallery->album->getDescription($index));
+$description = nl2br($gallery->album->getDescription($index) ?? '');
 
 echo infoBox($comment_messages);
 ?>
