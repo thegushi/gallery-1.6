@@ -2,6 +2,16 @@
 
 > **Mostly for the Lulz.**
 
+## Why
+
+Gallery was a big deal in the early 2000s. Before Flickr, before Google Photos, before anyone had a smartphone camera in their pocket, self-hosted photo galleries were how families and hobbyists shared photos on the web. Gallery 1.x was the king of that era: flat files, no database required, runs on any shared hosting.
+
+Gallery 2 and 3 followed and are long dead. The original project is archived. Most of the code that ran on millions of family websites in 2004 would now just crash on any modern server.
+
+This is a small act of digital preservation — or at minimum, a proof that the job is doable in an afternoon with a good LLM.
+
+---
+
 This branch (`php8-compat`) takes [Gallery 1.6-RC3](http://gallery.sourceforge.net) — a flat-file PHP photo gallery last touched in November 2008 — and makes it run on PHP 8.x: no fatal errors, no deprecation warnings, working admin and upload.
 
 The work was done with [Claude Code](https://claude.ai/code) (Anthropic's CLI coding assistant) across two sessions: a first pass to fix parse-level errors (`php -l` clean), then a second pass of runtime fixes found by deploying against a real gallery with real data. The original code is untouched on the `clean-import` branch for reference.
@@ -70,8 +80,6 @@ A third wave surfaced when exercising admin features: album viewing, photo uploa
 | `strpos(null, '_')` in `getAndSetAccessKey()` — null element from icon array | `?? ''` guard in `lib/content.php` |
 | Upload "Upload Now" button did nothing — `parent.opener.showProgress()` threw a JS error (null opener in modern browsers), blocking the form submit | Use optional chaining `parent.opener?.showProgress?.()` so the submit always proceeds |
 | Thumbnails created by ImageMagick via `exec()` got `600` permissions — unreadable by the web server as static files | `chmod(0644)` the output file after successful ImageMagick/Netpbm conversion |
-| Java applet slideshow mode and upload tabs offered in UI — applets dead in all modern browsers since ~2017 | Remove applet mode from `slideshow.php` and `popups/add_photos.php` |
-| Shutterfly print service link — API dead since ~2010 | Remove from `view_photo.php` print services list |
 | `HTML_Safe::parse()` / `sanitizeInput()` null input — PHP 8.1 deprecation on `preg_replace(null)` | Coerce `$doc` to string at top of `parse()` |
 
 ## Enhancements beyond the original
@@ -84,7 +92,7 @@ Small quality-of-life additions that made sense while everything was open.
 | Java applet upload and slideshow modes removed | Applets have been dead in all browsers since ~2017. The UI options are gone; the underlying `.inc` files remain but are unreachable. |
 | Shutterfly print service removed | API has been dead for years. Removed from the photo actions menu. |
 
-The "What is NOT fixed" section below still applies. The gallery is now fully functional for viewing, navigating, and uploading photos as a logged-in admin and as an unauthenticated visitor.
+The gallery is now fully functional for viewing, navigating, and uploading photos as a logged-in admin and as an unauthenticated visitor.
 
 ---
 
@@ -92,16 +100,6 @@ The "What is NOT fixed" section below still applies. The gallery is now fully fu
 
 - **`mysql_*` functions** — the MySQL database driver (`classes/database/mysql/`) still uses the long-removed `mysql_connect()` etc. This code path only runs when Gallery is embedded inside old PHP-Nuke/PostNuke/Joomla/Mambo CMS installations. For standalone flat-file use (the point of this exercise) it is never loaded.
 - **Security** — this is 2008 PHP code. It has CSRF, XSS, and path traversal issues that were considered acceptable at the time and are not acceptable now. Do not run this on a public server.
-
----
-
-## Why
-
-Gallery was a big deal in the early 2000s. Before Flickr, before Google Photos, before anyone had a smartphone camera in their pocket, self-hosted photo galleries were how families and hobbyists shared photos on the web. Gallery 1.x was the king of that era: flat files, no database required, runs on any shared hosting.
-
-Gallery 2 and 3 followed and are long dead. The original project is archived. Most of the code that ran on millions of family websites in 2004 would now just crash on any modern server.
-
-This is a small act of digital preservation — or at minimum, a proof that the job is doable in an afternoon with a good LLM.
 
 ---
 
