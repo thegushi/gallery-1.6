@@ -2,9 +2,9 @@
 
 > **Mostly for the Lulz.**
 
-This branch (`php8-compat`) takes [Gallery 1.6-RC3](http://gallery.sourceforge.net) — a flat-file PHP photo gallery last touched in November 2008 — and makes it parse cleanly under PHP 8.5 with zero fatal errors and zero deprecation warnings.
+This branch (`php8-compat`) takes [Gallery 1.6-RC3](http://gallery.sourceforge.net) — a flat-file PHP photo gallery last touched in November 2008 — and makes it run on PHP 8.x: no fatal errors, no deprecation warnings, working admin and upload.
 
-The work was done with [Claude Code](https://claude.ai/code) (Anthropic's CLI coding assistant) in a single session. The original code is untouched on the `clean-import` branch for reference.
+The work was done with [Claude Code](https://claude.ai/code) (Anthropic's CLI coding assistant) across two sessions: a first pass to fix parse-level errors (`php -l` clean), then a second pass of runtime fixes found by deploying against a real gallery with real data. The original code is untouched on the `clean-import` branch for reference.
 
 ---
 
@@ -52,14 +52,35 @@ Gallery 1.6 was written for PHP 4/5 circa 2001–2008. Sixteen-plus years of PHP
 | Album list page navigation broken for unauthenticated visitors — static `cache.html` was served regardless of `set_albumListPage` query param | Bypass cache when a page-navigation parameter is present |
 | `$gallery->language` read before `initLanguage()` runs | Seed `$gallery->language = 'en_US'` on the initial `stdClass` |
 
-The "What is NOT fixed" section below still applies. These runtime fixes only address what came up navigating a real gallery as an unauthenticated visitor.
+## Further runtime fixes (found during admin use and uploads)
+
+A third wave surfaced when exercising admin features: album viewing, photo upload, and the slideshow.
+
+| Issue | Fix |
+|---|---|
+| `nl2br(null)` — PHP 8.1 deprecation when photos/albums have no description or caption | `?? ''` guards on all `getDescription()`/`getCaption()` call sites in `view_album.php`, `lib/content.php`, and both photo templates |
+| `$album->fields['lightbox']` missing from old album `.dat` files | `?? ''` guard in `view_album.php` at all three access sites |
+| `stristr(null, ...)` — admin dropdown null when user is not an admin | `?? ''` guard in `lib/content.php` icon menu builder |
+| `$adminCommandsDropdown` undefined for non-admin users | Initialize to `null` before the `if (!empty($adminCommands))` block in `album.tpl.default` |
+| `DivisionByZeroError` in `galleryTable::render()` — `columnCount > 0` guard placed after the modulo | Move the zero-check first so `&&` short-circuits before `$i % 0` |
+| `galleryLink()` called with `''` instead of `array()` for `$attrList` — PHP 8 fatal on string offset | Coerce `$attrList` to array at the top of the function |
+| `Browser::singleton()` and `Browser::allowFileUploads()` called statically but not declared static — PHP 8 fatal | Add `static` keyword to both methods in `classes/horde/Browser.php` |
+| `floor(getImVersion())` — `getImVersion()` returns a version string like `'7.1.2-16'`; PHP 8 rejects strings in `floor()` | Replace with `(int)getImVersion()` at all three call sites |
+| `strlen(null)` — watermark name is null when no watermark is configured | `?? ''` guard in `Album.php` |
+| `strpos(null, '_')` in `getAndSetAccessKey()` — null element from icon array | `?? ''` guard in `lib/content.php` |
+| Upload "Upload Now" button did nothing — `parent.opener.showProgress()` threw a JS error (null opener in modern browsers), blocking the form submit | Use optional chaining `parent.opener?.showProgress?.()` so the submit always proceeds |
+| Thumbnails created by ImageMagick via `exec()` got `600` permissions — unreadable by the web server as static files | `chmod(0644)` the output file after successful ImageMagick/Netpbm conversion |
+| Java applet slideshow mode and upload tabs offered in UI — applets dead in all modern browsers since ~2017 | Remove applet mode from `slideshow.php` and `popups/add_photos.php` |
+| Shutterfly print service link — API dead since ~2010 | Remove from `view_photo.php` print services list |
+| `HTML_Safe::parse()` / `sanitizeInput()` null input — PHP 8.1 deprecation on `preg_replace(null)` | Coerce `$doc` to string at top of `parse()` |
+
+The "What is NOT fixed" section below still applies. The gallery is now fully functional for viewing, navigating, and uploading photos as a logged-in admin and as an unauthenticated visitor.
 
 ---
 
 ## What is NOT fixed
 
 - **`mysql_*` functions** — the MySQL database driver (`classes/database/mysql/`) still uses the long-removed `mysql_connect()` etc. This code path only runs when Gallery is embedded inside old PHP-Nuke/PostNuke/Joomla/Mambo CMS installations. For standalone flat-file use (the point of this exercise) it is never loaded.
-- **Actual runtime correctness** — syntax-clean is not the same as works. The setup wizard, image manipulation, user auth, and templating system have not been tested end-to-end. There are almost certainly runtime issues beyond what `php -l` catches.
 - **Security** — this is 2008 PHP code. It has CSRF, XSS, and path traversal issues that were considered acceptable at the time and are not acceptable now. Do not run this on a public server.
 
 ---
@@ -79,9 +100,10 @@ This is a small act of digital preservation — or at minimum, a proof that the 
 1. `brew install php` to get PHP 8.5 as a linter
 2. `php -l` across the whole tree to baseline the damage
 3. Claude Code worked through the issues category by category, reading files and making edits, running `php -l` after each batch to verify
-4. One commit on `php8-compat`, `clean-import` branch left untouched as the original
+4. Deployed against a real 20-year-old gallery with real albums and photos
+5. Fixed each runtime error as it surfaced, in order, until the gallery was fully functional
 
-Total wall-clock time: one session. The original README is preserved below.
+The `clean-import` branch is left untouched as the original. The original README is preserved below.
 
 ---
 
