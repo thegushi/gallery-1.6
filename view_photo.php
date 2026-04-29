@@ -274,7 +274,6 @@ if (!$gallery->album->isMovie($id)) {
 		$fullNames = array(
 			'Print Services' => array(
 				'fotokasten'  => 'Fotokasten',
-				'shutterfly'  => 'Shutterfly',
 				'photoaccess' => 'PhotoWorks',
 			),
 			'Mobile Service' => array('mpush' => 'mPUSH (mobile service)')
