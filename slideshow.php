@@ -100,15 +100,6 @@ $backwardIconText	= getIconText('slideshow/1leftarrow.gif', gTranslate('core', "
 $delayIconText		= getIcontext('history.gif', gTranslate('core', "Delay"));
 $loopIconText		= getIcontext('reload.gif', gTranslate('core', "Loop:"));
 
-// in offline mode, only high is available, because it's the only
-// one where the photos can be spidered...
-if (file_exists(dirname(__FILE__) . "/java/GalleryRemoteAppletMini.jar") &&
-	file_exists(dirname(__FILE__) . "/java/GalleryRemoteHTTPClient.jar") &&
-	! $gallery->session->offline)
-{
-	$modes["applet"] = gTranslate('core', "Fullscreen applet");
-}
-
 $modes["high"] = gTranslate('core', "Modern browsers");
 
 if (!empty($albumName) && !$gallery->session->offline) {
