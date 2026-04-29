@@ -9,8 +9,8 @@
 // full day names
 Calendar._DN = new Array(
 <?php
-$i=0; echo strftime('"%A"', mktime(0,0,0,5,$i,0));
-do { $i++; echo strftime(',%n"%A"', mktime(0,0,0,5,$i,0)); } while ($i < 7);
+$i=0; echo gallery_strftime('"%A"', mktime(0,0,0,5,$i,0));
+do { $i++; echo gallery_strftime(',%n"%A"', mktime(0,0,0,5,$i,0)); } while ($i < 7);
 ?>);
 
 // Please note that the following array of short day names (and the same goes
@@ -28,8 +28,8 @@ do { $i++; echo strftime(',%n"%A"', mktime(0,0,0,5,$i,0)); } while ($i < 7);
 // short day names
 Calendar._SDN = new Array(
 <?php
-$i=0; echo strftime('"%a"', mktime(0,0,0,5,$i,0));
-do { $i++; echo strftime(',%n"%a"', mktime(0,0,0,5,$i,0)); } while ($i < 7);
+$i=0; echo gallery_strftime('"%a"', mktime(0,0,0,5,$i,0));
+do { $i++; echo gallery_strftime(',%n"%a"', mktime(0,0,0,5,$i,0)); } while ($i < 7);
 ?>);
 
 // First day of the week. "0" means display Sunday first, "1" means display
@@ -39,15 +39,15 @@ Calendar._FD = 1;
 // full month names
 Calendar._MN = new Array(
 <?php
-$i=2; echo strftime('"%B"', mktime(0,0,0,$i,0,0));
-do { $i++; echo strftime(',%n"%B"', mktime(0,0,0,$i,0,0)); } while ($i < 13);
+$i=2; echo gallery_strftime('"%B"', mktime(0,0,0,$i,0,0));
+do { $i++; echo gallery_strftime(',%n"%B"', mktime(0,0,0,$i,0,0)); } while ($i < 13);
 ?>);
 
 // short month names
 Calendar._SMN = new Array(
 <?php
-$i=2; echo strftime('"%b"', mktime(0,0,0,$i,0,0));
-do { $i++; echo strftime(',%n"%b"', mktime(0,0,0,$i,0,0)); } while ($i < 13);
+$i=2; echo gallery_strftime('"%b"', mktime(0,0,0,$i,0,0));
+do { $i++; echo gallery_strftime(',%n"%b"', mktime(0,0,0,$i,0,0)); } while ($i < 13);
 ?>);
 
 // tooltips

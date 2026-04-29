@@ -391,7 +391,7 @@ function displayTextCell($statsAlbum, $photoIndex, $photoId, $rating, $ratingcou
 	$innerStatsTable->setColumnCount(2);
 
 	if ($showCaptureDate) {
-		$captureDate = strftime($gallery->app->dateTimeString, $statsAlbum->getItemCaptureDate($photoIndex));
+		$captureDate = gallery_strftime($gallery->app->dateTimeString, $statsAlbum->getItemCaptureDate($photoIndex));
 
 		$innerStatsTable->addElement(array(
 			'content' => gTranslate('core', "Capture date:"),
@@ -408,7 +408,7 @@ function displayTextCell($statsAlbum, $photoIndex, $photoId, $rating, $ratingcou
 		$time = $statsAlbum->getUploadDate($photoIndex);
 		// Older albums may not have this field.
 		if ($time) {
-			$time = strftime($gallery->app->dateString,$time);
+			$time = gallery_strftime($gallery->app->dateString,$time);
 			$innerStatsTable->addElement(array(
 				'content' => gTranslate('core', "Upload date:"),
 				'cellArgs' => array('width' => 100))

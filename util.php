@@ -112,6 +112,20 @@ function stripslashes_deep($value) {
 	return $value;
 }
 
+function gallery_strftime($format, $timestamp = null) {
+    if ($timestamp === null) $timestamp = time();
+    static $map = [
+        '%A' => 'l',    '%a' => 'D',    '%B' => 'F',    '%b' => 'M',
+        '%D' => 'm/d/y','%d' => 'd',    '%e' => 'j',    '%H' => 'H',
+        '%I' => 'h',    '%M' => 'i',    '%m' => 'm',    '%n' => "\n",
+        '%p' => 'A',    '%P' => 'a',    '%R' => 'H:i',  '%S' => 's',
+        '%T' => 'H:i:s','%t' => "\t",   '%X' => 'H:i:s','%x' => 'm/d/Y',
+        '%Y' => 'Y',    '%y' => 'y',    '%Z' => 'T',    '%z' => 'O',
+        '%%' => '%',
+    ];
+    return date(strtr($format, $map), $timestamp);
+}
+
 function getBlacklistFilename() {
 	global $gallery;
 	return sprintf("%s/blacklist.dat", $gallery->app->albumDir);
@@ -623,7 +637,7 @@ function getItemCaptureDate($file, $exifData = array()) {
 	}
 
 	echo debugMessage(sprintf(gTranslate('core', "Item Capture Date: %s"),
-				strftime($gallery->app->dateTimeString, $itemCaptureTimeStamp)),
+				gallery_strftime($gallery->app->dateTimeString, $itemCaptureTimeStamp)),
 			__FILE__, __LINE__);
 
 	return $itemCaptureTimeStamp;
@@ -906,7 +920,7 @@ function pretty_password($pass, $print, $pre = '	') {
 function logMessage ($msg, $logfile) {
 
 	if ($fd = fs_fopen($logfile, "a")) {
-		fwrite($fd, strftime("%Y/%m/%d %H:%M.%S: $msg\n"));
+		fwrite($fd, gallery_strftime("%Y/%m/%d %H:%M.%S: $msg\n"));
 		fclose($fd);
 	}
 	elseif (isDebugging()) {
@@ -1030,12 +1044,12 @@ function getExtraFieldsValues($index, $extra_fields, $full) {
 	foreach ($extra_fields as $key) {
 		if (isset($automaticFields[$key]) && $key != 'EXIF') {
 			if ($key == 'Upload Date') {
-				$table[$automaticFields[$key]] = strftime($gallery->app->dateTimeString , $gallery->album->getUploadDate($index));
+				$table[$automaticFields[$key]] = gallery_strftime($gallery->app->dateTimeString , $gallery->album->getUploadDate($index));
 			}
 
 			if ($key == 'Capture Date') {
 				$itemCaptureDate = $gallery->album->getItemCaptureDate($index);
-				$table[$automaticFields[$key]] = strftime($gallery->app->dateTimeString , $itemCaptureDate);
+				$table[$automaticFields[$key]] = gallery_strftime($gallery->app->dateTimeString , $itemCaptureDate);
 			}
 
 			if ($key == 'Dimensions') {

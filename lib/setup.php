@@ -840,10 +840,10 @@ function check_gallery_version() {
 	$visit = sprintf(gTranslate('common', "You can check for more recent versions by visiting %s."), $link);
 
 	$this_version = sprintf(gTranslate('common', "This version of %s was released on %s."),
-		Gallery(), strftime("%x", $gallery->last_change));
+		Gallery(), gallery_strftime("%x", $gallery->last_change));
 
 	$this_beta_version = sprintf(gTranslate('common', "This is a development build of %s that was released on %s."),
-		Gallery(), strftime("%x", $gallery->last_change));
+		Gallery(), gallery_strftime("%x", $gallery->last_change));
 
 	if ($age > $maxAge) {
 		if($beta) {

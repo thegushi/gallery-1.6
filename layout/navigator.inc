@@ -102,7 +102,7 @@ if(!includeTemplate('navigator.tpl')) {
 			if (isset($beginNextBlock)) {
 				$title = sprintf(gTranslate('core', "Jump to page %d (Accesskey '_r')"), $beginNextBlock);
 				$accesskey = getAndRemoveAccessKey($title);
-				$link = galleryLink("{$url}${navigator['pageVar']}=$beginNextBlock",
+				$link = galleryLink("{$url}{$navigator['pageVar']}=$beginNextBlock",
 				    '...', array('title' => $title, 'accesskey' => $accesskey));
 				$mpContent .= "\n\t<td>$link</td>";
 			}
@@ -112,7 +112,7 @@ if(!includeTemplate('navigator.tpl')) {
 					$leftdot = gImage($ndl, "leftdot");
 				}
 				else {
-					$number = galleryLink("${url}${navigator['pageVar']}=$i", $i);
+					$number = galleryLink("{$url}{$navigator['pageVar']}=$i", $i);
 					if ($i-1 == $current) {
 						$leftdot = gImage($ndr, "leftdot");
 					}
@@ -135,7 +135,7 @@ if(!includeTemplate('navigator.tpl')) {
 			if (isset($endNextBlock)) {
 				$title = sprintf(gTranslate('core', "Jump to page %d (Accesskey '_j')"), $endNextBlock);
 				$accesskey = getAndRemoveAccessKey($title);
-				$link = galleryLink("{$url}${navigator['pageVar']}=$endNextBlock",
+				$link = galleryLink("{$url}{$navigator['pageVar']}=$endNextBlock",
 				    '...', array('title' => $title, 'accesskey' => $accesskey));
 				$mpContent .= "\n\t</td><td>$link";
 			}

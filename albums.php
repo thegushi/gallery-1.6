@@ -40,7 +40,7 @@ if (empty($gallery->session->username)) {
 						}
 						fclose($fp);
 						printf("<!-- From %s, created at %s -->",
-						$cache_file_basename, strftime("%D %T", $cache_stat[9]));
+						$cache_file_basename, gallery_strftime("%D %T", $cache_stat[9]));
 						return;
 					}
 				}

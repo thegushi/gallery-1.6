@@ -2707,7 +2707,7 @@ class Album {
 			$this->resetClicks();
 			$time = $this->fields['clicks_date'];
 		}
-		return strftime($gallery->app->dateString,$time);
+		return gallery_strftime($gallery->app->dateString,$time);
 
 	}
 
@@ -2781,7 +2781,7 @@ class Album {
 		}
 
 		if (isset($creationDate)) {
-			return strftime($gallery->app->dateString,$creationDate);
+			return gallery_strftime($gallery->app->dateString,$creationDate);
 		}
 		else {
 			return false;
@@ -2800,7 +2800,7 @@ class Album {
 			$time = $stat[9];
 		}
 
-		return strftime($gallery->app->dateString,$time);
+		return gallery_strftime($gallery->app->dateString,$time);
 	}
 
 	/**

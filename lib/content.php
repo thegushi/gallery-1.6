@@ -1049,7 +1049,7 @@ function lastCommentString($lastCommentDate, &$displayCommentLegend) {
 
 	if ($gallery->app->comments_indication_verbose == 'yes') {
 		$html = "<br>".
-		  sprintf(gTranslate('common', "Last comment %s."), strftime($gallery->app->dateString, $lastCommentDate));
+		  sprintf(gTranslate('common', "Last comment %s."), gallery_strftime($gallery->app->dateString, $lastCommentDate));
 	}
 	else {
 		$html= '<span class="g-commentIndication">*</span>';

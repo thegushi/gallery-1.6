@@ -695,9 +695,9 @@ function gDate($name, $label = null, $value = null) {
 	}
 
 	$html = '';
-	$html .= gInput('hidden', $name, $label, false, strftime("%Y-%m-%d %H:%M:%S", $value));
+	$html .= gInput('hidden', $name, $label, false, gallery_strftime("%Y-%m-%d %H:%M:%S", $value));
 	$html .= '<span id="date_'. $name .'" class="g-form-date">' .
-				strftime("%d. %b %Y %H:%M:%S", $value) .
+				gallery_strftime("%d. %b %Y %H:%M:%S", $value) .
 			 '</span>';
 	$html .= "\n <button id=\"button_". $name ."\">...</button>\n<br>";
 	$html .= "\n<br>  <script type=\"text/javascript\">Calendar.setup(

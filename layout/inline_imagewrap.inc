@@ -51,11 +51,11 @@ switch ($frame) {
 
     case "solid":
         $width = $imageWidth + $borderWidth;
-        echo "<div $idImage style=\"margin: 0 auto; width: ${imageWidth}px; border: ${borderWidth}px solid $borderColor;\">$href_tag</div>";
+        echo "<div $idImage style=\"margin: 0 auto; width: {$imageWidth}px; border: {$borderWidth}px solid $borderColor;\">$href_tag</div>";
     break;
 
     case "dots":
-		echo "<div $idImage style=\"margin: 0 auto; width: ${imageWidth}px; border:${borderWidth}px dashed $borderColor;\">$href_tag</div>";
+		echo "<div $idImage style=\"margin: 0 auto; width: {$imageWidth}px; border:{$borderWidth}px dashed $borderColor;\">$href_tag</div>";
     break;
 
     case "siriux":
@@ -72,11 +72,11 @@ switch ($frame) {
     		}
     		else {
 	   		$marginTop = ($imageWidth - $imageHeight)/2;
-    			echo "\n\t<div style=\"height: ${marginTop}px;\"></div>\n";
+    			echo "\n\t<div style=\"height: {$marginTop}px;\"></div>\n";
     		}
     	}
 
-        echo "\n\t<div $idImage style=\"margin: ${margin}px;\" class=\"g-siriux\">$href_tag</div>\n";
+        echo "\n\t<div $idImage style=\"margin: {$margin}px;\" class=\"g-siriux\">$href_tag</div>\n";
     break;
 
     default:

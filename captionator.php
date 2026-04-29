@@ -328,7 +328,7 @@ if ($numPhotos) {
 			echo "\n\t\t". '<input type="text" name="new_keywords_'. $i .'" size="65" value="'. $oldKeywords .'"></p>';
 
 			$itemCaptureDate = $photo->getItemCaptureDate();
-			$capturedate = strftime($gallery->app->dateTimeString , $itemCaptureDate);
+			$capturedate = gallery_strftime($gallery->app->dateTimeString , $itemCaptureDate);
 
 			echo "\n\t\t". '<p class="g-admin">'. sprintf(gTranslate('core', "Capture Date: %s"),$capturedate) . '</p><br>';
 		}

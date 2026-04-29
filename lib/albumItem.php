@@ -453,13 +453,13 @@ function generateCaption($captionType = 1, $originalFilename = '', $filename = '
 
 		case 2:
 			/* Use file creation date */
-			$caption		= strftime($dateTimeFormat, filectime($filename));
+			$caption		= gallery_strftime($dateTimeFormat, filectime($filename));
 			$captionTypeString	= 'file creation date';
 			break;
 
 		case 3:
 			/* Use capture date */
-			$caption		= strftime($dateTimeFormat, getItemCaptureDate($filename));
+			$caption		= gallery_strftime($dateTimeFormat, getItemCaptureDate($filename));
 			$captionTypeString	= 'file capture date';
 			break;
 	}

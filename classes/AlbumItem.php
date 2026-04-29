@@ -1023,12 +1023,12 @@ class AlbumItem {
 
 			case 2:
 				/* Use file cration date */
-				$caption = strftime($dateTimeFormat, filectime($path));
+				$caption = gallery_strftime($dateTimeFormat, filectime($path));
 				break;
 
 			case 3:
 				/* Use capture date */
-				$caption = strftime($dateTimeFormat, getItemCaptureDate($path));
+				$caption = gallery_strftime($dateTimeFormat, getItemCaptureDate($path));
 				break;
 		}
 

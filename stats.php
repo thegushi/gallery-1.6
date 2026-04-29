@@ -355,7 +355,7 @@ debugMessage((!empty($refreshcache)) ? gTranslate('core', "Cache to be rebuilt")
 // If it isn't, then load the photos data and sort.
 if (empty($useCache)) {
 	if (!empty($period )) {
-		$cutoffDate = strftime("%Y") * 12 + strftime("%m") - $period;
+		$cutoffDate = gallery_strftime("%Y") * 12 + gallery_strftime("%m") - $period;
 	}
 	else {
 		$cutoffDate = 0;
@@ -419,7 +419,7 @@ if (empty($useCache)) {
 				if (! $statsAlbum->isAlbum($j) && (!$statsAlbum->isHidden($j) || $gallery->user->isAdmin())) {
 					$uploaddate = $statsAlbum->getUploadDate($j);
 
-					if (strftime("%Y",$uploaddate ) * 12 + strftime("%m",$uploaddate) >= $cutoffDate ) {
+					if (gallery_strftime("%Y",$uploaddate ) * 12 + gallery_strftime("%m",$uploaddate) >= $cutoffDate ) {
 						// If displaying latest comments,
 						// then only list photos with comments;
 						// otherwise display all.
@@ -440,15 +440,15 @@ if (empty($useCache)) {
 							// If the user wants stats for a capture date of a
 							// specific year, month or day then filter out any images
 							// that do not match.
-							if (!empty($timeYear) && $timeYear != strftime("%Y",$captureDate)) {
+							if (!empty($timeYear) && $timeYear != gallery_strftime("%Y",$captureDate)) {
 								continue;
 							}
 
-							if (!empty($timeMonth) && $timeMonth != strftime("%m", $captureDate)) {
+							if (!empty($timeMonth) && $timeMonth != gallery_strftime("%m", $captureDate)) {
 								continue;
 							}
 
-							if (!empty($timeDay) && $timeDay != strftime("%d", $captureDate)) {
+							if (!empty($timeDay) && $timeDay != gallery_strftime("%d", $captureDate)) {
 								continue;
 							}
 

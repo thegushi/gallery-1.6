@@ -654,7 +654,7 @@ $constants =  array_merge(array(
 		'desc' => sprintf(gTranslate('config',"This format string will be used to display %s in %s.  It is recommended to use %s which will change format depending on language choice.  However, if you wish to change this string, please look at the %sPHP documentation%s."),
 		  gTranslate('config',"date without time"), Gallery(), "<b>%x</b>",
 		  '<a href="'.gTranslate('config',"http://www.php.net/manual/en/function.strftime.php"). '" target="_blank">', '</a>') .  '<br>' .
-		  sprintf(gTranslate('config',"For example, %s will display date like this: %s."), "<b>%b %d, %Y</b>", "<b>" . strftime("%b %d, %Y") . "</b>"),
+		  sprintf(gTranslate('config',"For example, %s will display date like this: %s."), "<b>%b %d, %Y</b>", "<b>" . gallery_strftime("%b %d, %Y") . "</b>"),
 		'value' => '%x',
 		'type' => 'text',
 		'attrs' => array('size' => 20),
@@ -665,7 +665,7 @@ $constants =  array_merge(array(
 		'desc' => sprintf(gTranslate('config',"This format string will be used to display %s in %s.  It is recommended to use %s which will change format depending on language choice.  However, if you wish to change this string, please look at the %sPHP documentation%s."),
 		  gTranslate('config',"date with time"), Gallery(), "<b>%c</b>",
 		  '<a href="'.gTranslate('config',"http://www.php.net/manual/en/function.strftime.php"). '" target="_blank">', '</a>') .  "<br>" .
-		  sprintf(gTranslate('config',"For example, %s will display date and time like this: %s."), "<b>%H:%M, %b %d, %Y</b>", "<b>" . strftime("%H:%M, %b %d, %Y") . "</b>"),
+		  sprintf(gTranslate('config',"For example, %s will display date and time like this: %s."), "<b>%H:%M, %b %d, %Y</b>", "<b>" . gallery_strftime("%H:%M, %b %d, %Y") . "</b>"),
 		'value' => '%c',
 		'type' => 'text',
 		'attrs' => array('size' => 20),
