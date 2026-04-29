@@ -45,6 +45,7 @@ mt_srand();
 global $gallery;
 if (!is_object($gallery)) {
     $gallery = new stdClass();
+    $gallery->language = 'en_US';
 }
 require(dirname(__FILE__) . "/Version.php");
 require(dirname(__FILE__) . "/util.php");
