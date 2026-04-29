@@ -138,7 +138,7 @@ class galleryTable {
 					$i++;
 				}
 
-				if (!($i % $this->columnCount) && $nr < $numElements-1 && $this->columnCount > 0) {
+				if ($this->columnCount > 0 && !($i % $this->columnCount) && $nr < $numElements-1) {
 					$html .= "\n$ind </tr>\n$ind<tr>";
 				}
 			}
