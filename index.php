@@ -57,8 +57,8 @@ $phpnuke	= isset($GLOBALS['nukeurl']) ? true : false;
 if ($zikula ||
     $postnuke ||
 	$phpnuke ||
-	!strcmp($op, "modload") ||
-	!strcmp($mop, "modload") ||
+	!strcmp($op ?? '', "modload") ||
+	!strcmp($mop ?? '', "modload") ||
 	isset($option))
 {
 	/*

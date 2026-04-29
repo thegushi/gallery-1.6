@@ -43,6 +43,9 @@ if(function_exists('date_default_timezone_get')) {
 mt_srand();
 
 global $gallery;
+if (!is_object($gallery)) {
+    $gallery = new stdClass();
+}
 require(dirname(__FILE__) . "/Version.php");
 require(dirname(__FILE__) . "/util.php");
 
