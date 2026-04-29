@@ -1624,7 +1624,7 @@ class Album {
 			$this->movePhoto($this->numPhotos(1), 0);
 		}
 
-		if (strlen($wmName) && isImage($tag)) {
+		if (strlen($wmName ?? '') && isImage($tag)) {
 			processingMsg("- ". gTranslate('core', "Watermarking image"));
 			$photo->watermark($this->getAlbumDir(),
 			$wmName, '', $wmAlign, $wmAlignX, $wmAlignY, 0, 0, $wmSelect);
