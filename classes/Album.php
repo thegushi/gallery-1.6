@@ -1044,6 +1044,7 @@ class Album {
 		foreach ($tmp as $k => $v) {
 			$this->$k = $v;
 		}
+		$this->transient = new stdClass();
 		return 1;
 	}
 
