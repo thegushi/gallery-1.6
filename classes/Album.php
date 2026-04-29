@@ -1033,10 +1033,10 @@ class Album {
 
 	function loadFromFile($filename) {
 		$tmp = unserialize(fs_file_get_contents($filename));
-		if (strcasecmp(get_class($tmp), "album")) {
+		if (!is_object($tmp) || strcasecmp(get_class($tmp), "album")) {
 			/* Dunno what we unserialized .. but it wasn't an album! */
 			$tmp = unserialize(fs_file_get_contents($filename, true));
-			if (strcasecmp(get_class($tmp), "album")) {
+			if (!is_object($tmp) || strcasecmp(get_class($tmp), "album")) {
 				return 0;
 			}
 		}
@@ -1056,7 +1056,7 @@ class Album {
 			}
 		}
 		if (count($tmp) > 0) {
-			if (strcasecmp(get_class($tmp[0]), "albumitem")) {
+			if (!is_object($tmp[0]) || strcasecmp(get_class($tmp[0]), "albumitem")) {
 				/* Dunno what we unserialized .. but it wasn't an album! */
 				return 0;
 			}
