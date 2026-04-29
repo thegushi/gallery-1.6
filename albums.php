@@ -26,7 +26,7 @@ require_once(dirname(__FILE__) . '/includes/stats/stats.inc.php');
 if (empty($gallery->session->username)) {
 	/* Get the cached version if possible */
 	$cache_file = "cache.html";
-	if (!getRequestVar('gallery_nocache')) {
+	if (!getRequestVar('gallery_nocache') && !getRequestVar('set_albumListPage')) {
 		$cache_now = time();
 		$cacheFileBaseNames = array(sprintf("cache-%s.html", $_SERVER['HTTP_HOST']), "cache.html");
 		foreach ($cacheFileBaseNames as $cache_file_basename) {
