@@ -269,7 +269,7 @@ class AlbumDB {
 		foreach ($this->albumList as $album) {
 			set_time_limit($gallery->app->timeLimit);
 			if ($album->fields["name"] == $name) {
-				if ((!isset($album->transient) || !$album->transient->photosloaded) && $load) {
+				if ((!isset($album->transient) || !($album->transient->photosloaded ?? false)) && $load) {
 					$album->loadPhotos($gallery->app->albumDir . "/$name");
 				}
 				return $album;

@@ -449,6 +449,10 @@ function galleryLink($url = '', $text ='', $attrList = array(), $icon = '', $add
 	static $accessKeyUsed = array();
 	global $specialIconMode;
 
+	if (!is_array($attrList)) {
+		$attrList = array();
+	}
+
 	$html = '';
 	$altText = $text;
 
