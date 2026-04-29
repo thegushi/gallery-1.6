@@ -835,6 +835,10 @@ function compressImage($src = '', $dest = '', $targetSize = 0, $quality = 75, $k
 				return false;
 			}
 
+			if (file_exists($dest)) {
+				@chmod($dest, 0644);
+			}
+
 			/* copy over EXIF data if a JPEG if $keepProfiles is set.
 			*  Unfortunately, we can't also keep comments.
 			*/
@@ -902,7 +906,11 @@ function compressImage($src = '', $dest = '', $targetSize = 0, $quality = 75, $k
 				//$geometryCmd = "-coalesce -geometry {$targetSize}x{$targetSize} ";
 			}
 
-			return exec_wrapper(ImCmd(fs_executable('convert'), $srcOperator, $srcFile, $destOperator, $destFile));
+			$result = exec_wrapper(ImCmd(fs_executable('convert'), $srcOperator, $srcFile, $destOperator, $destFile));
+			if ($result && file_exists($dest)) {
+				@chmod($dest, 0644);
+			}
+			return $result;
 		break;
 
 		default:
