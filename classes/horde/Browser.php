@@ -231,7 +231,7 @@ class Browser {
      *
      * @return Browser  The Browser object.
      */
-    function &singleton($userAgent = null, $accept = null)
+    static function &singleton($userAgent = null, $accept = null)
     {
         static $instances;
 
@@ -880,7 +880,7 @@ class Browser {
      *                  upload in bytes.  Returns 0 if uploads are not
      *                  allowed.
      */
-    function allowFileUploads()
+    static function allowFileUploads()
     {
         if (ini_get('file_uploads')) {
             if (($dir = ini_get('upload_tmp_dir')) &&
