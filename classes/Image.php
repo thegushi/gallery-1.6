@@ -253,8 +253,8 @@ class Image {
 			$attrs['height']	= $this->height;
 		}
 
-		$fullImage	= urlencode($this->name) .".$this->type";
-		$resizedImage	= urlencode($this->resizedName) .".$this->type";
+		$fullImage	= urlencode($this->name ?? '') .".$this->type";
+		$resizedImage	= urlencode($this->resizedName ?? '') .".$this->type";
 
 		if ($this->resizedName && $size == 0) {
 			if ($full) {

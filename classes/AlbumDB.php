@@ -255,7 +255,7 @@ class AlbumDB {
 		$wantedAlbum = isset($list[$index-1]) ? $list[$index-1] : false;
 
 		if ($wantedAlbum &&
-			(!isset($wantedAlbum->transient) || !$wantedAlbum->transient->photosloaded))
+			(!isset($wantedAlbum->transient) || !($wantedAlbum->transient->photosloaded ?? false)))
 		{
 			$wantedAlbum->loadPhotos($gallery->app->albumDir . "/" . $wantedAlbum->fields["name"]);
 		}

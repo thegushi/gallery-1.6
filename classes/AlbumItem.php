@@ -158,7 +158,7 @@ class AlbumItem {
 	}
 
 	function numComments() {
-		return sizeof($this->comments);
+		return sizeof($this->comments ?? []);
 	}
 
 	function getComment($commentIndex) {
