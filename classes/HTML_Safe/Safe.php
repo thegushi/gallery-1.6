@@ -596,6 +596,8 @@ class HTML_Safe
      */
     function parse($doc)
     {
+       $this->clear();
+       $this->_stack = array();
        $doc = (string)($doc ?? '');
 
        // Save all '<' symbols
