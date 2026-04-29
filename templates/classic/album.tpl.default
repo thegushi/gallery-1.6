@@ -26,6 +26,7 @@ if(! defined('READY_TO_INCLUDE') || READY_TO_INCLUDE  !== 'DISCO') {
 }
 
 /* Build up drop-down menu and related javascript for album action*/
+$adminCommandsDropdown = null;
 if (!empty($adminCommands)) {
 	$adminCommandsDropdown = makeFormIntro(
 		'view_album.php',

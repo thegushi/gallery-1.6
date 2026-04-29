@@ -528,7 +528,7 @@ function makeIconMenu($iconElements, $align = 'left', $closeTable = true, $lineb
 	$i = 0;
 	foreach ($iconElements as $element) {
 		$i++;
-		if (stristr($element,'</a>')) {
+		if (stristr($element ?? '','</a>')) {
 			$html .= "\n\t<td>$element</td>";
 		}
 		else {

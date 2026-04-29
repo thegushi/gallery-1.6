@@ -433,7 +433,7 @@ if ($numPhotos) {
 
 				}
 
-				$description = nl2br($photo->getDescription());
+				$description = nl2br($photo->getDescription() ?? '');
 				if(!empty($description)) {
 					$header = gTranslate('core' ,"Description for"). sprintf("<br>'%s'", $caption);
 					$label = gTranslate('core' ,"... show full description");
@@ -506,7 +506,7 @@ if ($numPhotos) {
 									false
 				);
 
-				if ($gallery->album->fields['lightbox'] == "yes") {
+				if (($gallery->album->fields['lightbox'] ?? '') == "yes") {
 					list($album, $highlight) = $myAlbum->getHighlightedItem();
 
 					if(!empty($highlight)) {
@@ -573,7 +573,7 @@ if ($numPhotos) {
 				}
 
 
-				if ($gallery->album->fields['lightbox'] == "yes") {
+				if (($gallery->album->fields['lightbox'] ?? '') == "yes") {
 					$gallery->html_wrap['imageHref']	= $gallery->album->getPhotoPath($i);
 					$gallery->html_wrap['attrlist']['rel']  = 'lightbox[gallery]';
 					$gallery->html_wrap['attrlist']['id'] 	= "thumblink_$i";
@@ -761,7 +761,7 @@ if ($numPhotos) {
 		$va_notice = gTranslate('core', "This album is empty.");
 	}
 	else {
-		if ($gallery->album->fields['lightbox'] == "yes") {
+		if (($gallery->album->fields['lightbox'] ?? '') == "yes") {
 			$va_javascript .= jsHTML('lightbox2/prototype.js');
 			$va_javascript .= jsHTML('lightbox2/scriptaculous.js?load=effects,builder');
 			$va_javascript .= jsHTML('lightbox2/lightbox.js.php');
