@@ -93,7 +93,7 @@ if (isset($gallery->app->watermarkDir)) {
 }
 ?>
 <div align="center">
-<input type="submit" value="<?php echo gTranslate('core', "Submit directory") ?>" onClick='parent.opener.showProgress(); document.uploadurl_form.submit()' class="g-button">
+<input type="submit" value="<?php echo gTranslate('core', "Submit directory") ?>" onClick='parent.opener?.showProgress?.(); document.uploadurl_form.submit()' class="g-button">
 <?php echo gButton('cancel', gTranslate('core', '_Cancel'), 'parent.close()'); ?>
 </div>
 </form>

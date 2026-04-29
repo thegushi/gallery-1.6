@@ -565,7 +565,7 @@ printf(gTranslate('core', "%d meta file(s) found.  These files contain informati
 <input type="hidden" name="wmAlignX" value="<?php echo $wmAlignX ?>">
 <input type="hidden" name="wmAlignY" value="<?php echo $wmAlignY ?>">
 <input type="hidden" name="wmSelect" value="<?php echo $wmSelect ?>">
-<?php echo gButton('addFiles', gTranslate('core', "_Add Files"), 'parent.opener.showProgress(); document.uploadurl_form.submit()'); ?>
+<?php echo gButton('addFiles', gTranslate('core', "_Add Files"), 'parent.opener?.showProgress?.(); document.uploadurl_form.submit()'); ?>
 </p>
 
 </form>

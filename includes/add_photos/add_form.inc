@@ -105,7 +105,7 @@ if (isset($gallery->app->watermarkDir)) {
 }
 ?>
 <p align="center">
-	<?php echo gButton('upload', gTranslate('core', "_Upload Now"), 'parent.opener.showProgress(); document.upload_form.submit()'); ?>
+	<?php echo gButton('upload', gTranslate('core', "_Upload Now"), 'parent.opener?.showProgress?.(); document.upload_form.submit()'); ?>
 	<?php echo gButton('cancel', gTranslate('core', "_Cancel"), 'parent.close()'); ?>
 </p>
 

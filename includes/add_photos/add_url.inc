@@ -62,7 +62,7 @@ if (isset($gallery->app->watermarkDir)) {
 ?>
 <div align="center" style="margin-top: 5px;">
 	<?php echo gInput('hidden', 'uploadFromUrl', '', false, '1'); ?>
-	<?php echo gButton('submitUrl', gTranslate('core', "_Submit URL"), 'parent.opener.showProgress(); document.uploadurl_form.submit()'); ?>
+	<?php echo gButton('submitUrl', gTranslate('core', "_Submit URL"), 'parent.opener?.showProgress?.(); document.uploadurl_form.submit()'); ?>
 	<?php echo gButton('cancel', gTranslate('core', "_Cancel"), 'parent.close()'); ?>
 </div>
 
