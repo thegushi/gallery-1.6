@@ -84,7 +84,7 @@ function acceptableFormatRegexp() {
  * @return array
  */
 function acceptableImageList() {
-	return array('jpg', 'jpeg', 'gif', 'png');
+	return array('jpg', 'jpeg', 'gif', 'png', 'webp');
 }
 
 /**
