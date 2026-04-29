@@ -35,7 +35,7 @@ class Gallery_User extends Abstract_User {
 	// the email from original account creation.  Just incase user goes feral
 
 	function __construct() {
-		Abstract_User::Abstract_User();
+		parent::__construct();
 		$this->setDefaultLanguage('');
 
 		// assuming revision 4 ensures that if the user_version is
