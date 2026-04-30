@@ -10,6 +10,8 @@ Gallery 2 and 3 followed and are long dead. The original project is archived. Mo
 
 This is a small act of digital preservation — or at minimum, a proof that the job is doable in an afternoon with a good LLM.
 
+(Also noted in my Medium blog [here](https://gushi.medium.com/reaching-into-the-past-reviving-my-old-image-gallery-523fb6bfba5f))
+
 ---
 
 This branch (`php8-compat`) takes [Gallery 1.6-RC3](http://gallery.sourceforge.net) — a flat-file PHP photo gallery last touched in November 2008 — and makes it run on PHP 8.x: no fatal errors, no deprecation warnings, working admin and upload.
