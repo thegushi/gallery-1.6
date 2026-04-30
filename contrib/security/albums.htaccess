@@ -1,0 +1,42 @@
+# albums/.htaccess — place this in your Gallery albums directory
+#
+# Two layers of protection for album files:
+#
+# 1. Referrer check — blocks requests that come from outside your domain.
+#    Stops casual hotlinking. Easily defeated by spoofing the Referer header,
+#    and also blocks legitimate users whose browser strips referrers (privacy
+#    tools, HTTPS→HTTP navigation). Remove the referrer rules if this causes
+#    problems.
+#
+# 2. Cookie check — blocks requests that don't carry the gallery_access cookie
+#    set by cookie_gate.php. Anyone who has visited the gallery today has the
+#    cookie; direct URL access does not.
+#
+# Both checks apply only to media files. .dat files are blocked unconditionally.
+#
+# INSTALLATION
+# Copy to your albums directory as .htaccess. Merge with any existing content.
+# Replace example.com with your actual domain in the RewriteCond below.
+
+# Disable directory listing
+Options -Indexes
+
+# Block Gallery's internal data files unconditionally
+<FilesMatch "\.(dat|bak|cfg|inc)$">
+    Require all denied
+</FilesMatch>
+
+RewriteEngine On
+
+# --- Referrer check ---
+# Allow: no referrer (direct/privacy-stripped), your own domain
+# Deny: referrer from anywhere else
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?example\.com/ [NC]
+RewriteRule \.(jpe?g|gif|png|webp|mov|mp4|avi|swf)$ - [F,L]
+
+# --- Cookie check ---
+# Allow: requests carrying today's gallery_access cookie (set by cookie_gate.php)
+# Deny: everything else (direct access, hotlinks from allowed referrers without cookie)
+RewriteCond %{HTTP_COOKIE} !gallery_access=
+RewriteRule \.(jpe?g|gif|png|webp|mov|mp4|avi|swf)$ - [F,L]
