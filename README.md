@@ -91,6 +91,7 @@ Small quality-of-life additions that made sense while everything was open.
 | WebP support | Added `webp` to `acceptableImageList()` in `lib/filetypes.php`. Requires ImageMagick with libwebp (confirmed working with libwebp 1.6.0). Originals are stored as WebP; thumbnails are output as JPEG as usual. |
 | Java applet upload and slideshow modes removed | Applets have been dead in all browsers since ~2017. The UI options are gone; the underlying `.inc` files remain but are unreachable. |
 | Shutterfly print service removed | API has been dead for years. Removed from the photo actions menu. |
+| Album directory protection (`contrib/security/`) | Two-layer `.htaccess` for the albums directory: referrer checking to block hotlinks, and a daily-rotating HMAC cookie set by `cookie_gate.php` dropped into the gallery root. Roughly the best a careful sysadmin could have done in 2004. Not a substitute for real auth — see the contrib README for caveats. |
 
 The gallery is now fully functional for viewing, navigating, and uploading photos as a logged-in admin and as an unauthenticated visitor.
 
